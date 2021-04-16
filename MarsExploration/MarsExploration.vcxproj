@@ -139,7 +139,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CancelEvent.cpp" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="FormulationEvent.cpp" />
+    <ClCompile Include="MarsStation.cpp" />
+    <ClCompile Include="Mission.cpp" />
+    <ClCompile Include="PrompteEvent.cpp" />
+    <ClCompile Include="Rover.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="UI.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CancelEvent.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="FormulationEvent.h" />
+    <ClInclude Include="MarsStation.h" />
+    <ClInclude Include="Mission.h" />
+    <ClInclude Include="PrompteEvent.h" />
+    <ClInclude Include="Rover.h" />
+    <ClInclude Include="UI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
