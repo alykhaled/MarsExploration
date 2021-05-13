@@ -12,6 +12,13 @@ struct Node
 	}
 };
 
+enum Mode 
+{
+	Interactive,
+	StepByStep,
+	Silent
+};
+
 enum MissionType
 {
 	Emergency,

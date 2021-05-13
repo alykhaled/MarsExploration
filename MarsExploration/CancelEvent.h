@@ -1,6 +1,6 @@
 #pragma once
 #include "Event.h"
-class MarsStation;
+
 
 class CancelEvent : public Event
 {

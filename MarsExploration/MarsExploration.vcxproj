@@ -153,11 +153,14 @@
     <ClInclude Include="CancelEvent.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="FormulationEvent.h" />
+    <ClInclude Include="LinkedList.h" />
     <ClInclude Include="MarsStation.h" />
     <ClInclude Include="Mission.h" />
     <ClInclude Include="PrompteEvent.h" />
+    <ClInclude Include="queue.h" />
     <ClInclude Include="Rover.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

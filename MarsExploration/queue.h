@@ -12,10 +12,15 @@ private:
 
 	Node<T>* backPtr;
 	Node<T>* frontPtr;
+	int sizeF;
 public:
 	queue();
 	bool isEmpty() const;
 	bool push(const T& newEntry);
+	int getSize()
+	{
+		return sizeF;
+	}
 	bool pop(T& frntEntry);
 	bool peek(T& frntEntry)  const;
 	~queue();
@@ -32,7 +37,7 @@ queue<T>::queue()
 {
 	backPtr = nullptr;
 	frontPtr = nullptr;
-
+	this->sizeF = 0;
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -46,6 +51,8 @@ bool queue<T>::isEmpty() const
 template <typename T>
 bool queue<T>::push(const T& newEntry)
 {
+	sizeF++;
+
 	Node<T>* newNodePtr = new Node<T>(newEntry);
 	// Insert the new node
 	if (isEmpty())	//special case if this is the first node to insert
@@ -64,18 +71,17 @@ bool queue<T>::pop(T& frntEntry)
 	if (isEmpty())
 		return false;
 
-	//Node<T>* nodeToDeletePtr = frontPtr;
-	//frntEntry = frontPtr->item;
-	//frontPtr = frontPtr->next;
-	//// Queue is not empty; remove front
-	//if (nodeToDeletePtr == backPtr)	 // Special case: last node in the queue
-	//	backPtr = nullptr;
+	Node<T>* nodeToDeletePtr = frontPtr;
+	frntEntry = frontPtr->item;
+	frontPtr = frontPtr->next;
+	// Queue is not empty; remove front
+	if (nodeToDeletePtr == backPtr)	 // Special case: last node in the queue
+		backPtr = nullptr;
 
-	//// Free memory reserved for the dequeued node
-	//delete nodeToDeletePtr;
-
+	// Free memory reserved for the dequeued node
+	delete nodeToDeletePtr;
+	sizeF--;
 	return true;
-
 }
 
 template <typename T>
@@ -84,7 +90,7 @@ bool queue<T>::peek(T& frntEntry) const
 	if (isEmpty())
 		return false;
 
-	frntEntry = frontPtr->getItem();
+	frntEntry = frontPtr->item;
 	return true;
 
 }
@@ -110,16 +116,16 @@ queue<T>::queue(const queue<T>& LQ)
 	}
 
 	//insert the first node
-	Node<T>* ptr = new Node<T>(NodePtr->getItem());
+	Node<T>* ptr = new Node<T>(NodePtr->item);
 	frontPtr = backPtr = ptr;
-	NodePtr = NodePtr->getNext();
+	NodePtr = NodePtr->next;
 
 	//insert remaining nodes
 	while (NodePtr)
 	{
-		Node<T>* ptr = new Node<T>(NodePtr->getItem());
-		backPtr->setNext(ptr);
+		Node<T>* ptr = new Node<T>(NodePtr->item);
+		backPtr->next = ptr;
 		backPtr = ptr;
-		NodePtr = NodePtr->getNext();
+		NodePtr = NodePtr->next;
 	}
 }

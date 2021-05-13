@@ -1,6 +1,4 @@
 #pragma once
-#include "MarsStation.h"
-
 class MarsStation;
 
 class Event
@@ -10,5 +8,7 @@ protected:
 	MarsStation* station;
 public:
 	void virtual Execute() = 0;
+	int getID();
+	int getDay();
 };
 

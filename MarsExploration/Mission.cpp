@@ -15,3 +15,18 @@ MissionType Mission::getType()
 {
 	return this->Type;
 }
+
+void Mission::assignRover(Rover* rover)
+{
+	this->AssignedRover = rover;
+}
+
+Rover* Mission::getAssignedRover()
+{
+	return AssignedRover;
+}
+
+int Mission::getID()
+{
+	return ID;
+}
