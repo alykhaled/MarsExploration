@@ -26,6 +26,11 @@ Rover* Mission::getAssignedRover()
 	return AssignedRover;
 }
 
+int Mission::getExecutionDay()
+{
+	return Day;
+}
+
 int Mission::getID()
 {
 	return ID;

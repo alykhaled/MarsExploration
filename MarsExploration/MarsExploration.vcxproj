@@ -156,6 +156,7 @@
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="MarsStation.h" />
     <ClInclude Include="Mission.h" />
+    <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="PrompteEvent.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="Rover.h" />

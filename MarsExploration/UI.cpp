@@ -1,4 +1,8 @@
 #include "UI.h"
+#include <iostream>
+
+#include <limits> 
+#include <ios> 
 #include "MarsStation.h"
 
 UI::UI(MarsStation* station)
@@ -15,9 +19,8 @@ void UI::nextDay()
 		break;
 	case StepByStep:
 		Sleep(1000);
-		cin.get();
 		break;
-	case Silent:
+	case Silent: 
 		break;
 	default:
 		break;
@@ -32,7 +35,7 @@ void UI::printOutput()
 		printInteractiveOutput();
 		break;
 	case StepByStep:
-		printStepByStepOutput();
+		printInteractiveOutput();
 		break;
 	case Silent:
 		printSilentOutput();
@@ -152,21 +155,6 @@ void UI::printInteractiveOutput()
 	printCompletedList();
 }
 
-void UI::printStepByStepOutput()
-{
-	system("CLS");
-	cout << "Current Day: " << station->getCurrentDay() << endl;
-	printWaitingMissionsList();
-	cout << "\n---------------------------------------\n";
-	printInExecutionList();
-	cout << "\n---------------------------------------\n";
-	printAvaliableRoverList();
-	cout << "\n---------------------------------------\n";
-	printInCheckupRoverList();
-	cout << "\n---------------------------------------\n";
-	printCompletedList();
-}
-
 void UI::printSilentOutput()
 {
 
@@ -176,6 +164,8 @@ Mode UI::chooseMode()
 {
 	cout << "Choose the mode\n1-Interactive\n2-Step-By-Step\n3-Silent" << endl;
 	int option; cin >> option;
+	cin.clear();
+	cin.ignore(INT_MAX, '\n'); 
 	switch (option)
 	{
 	case 1:
@@ -216,6 +206,7 @@ string UI::getIDs(queue<Mission*>* que)
 	ids.erase(ids.begin());
 	return ids;
 }
+
 string UI::getLinkedListIDs(LinkedList<Mission*>* list)
 {
 	Node<Mission*>* temp = list->getHead();
@@ -224,7 +215,6 @@ string UI::getLinkedListIDs(LinkedList<Mission*>* list)
 		return "";
 	}
 	string ids = "";
-	ids += "," + to_string(temp->item->getID());
 	while (temp)
 	{
 		ids += "," + to_string(temp->item->getID());
@@ -233,7 +223,6 @@ string UI::getLinkedListIDs(LinkedList<Mission*>* list)
 	ids.erase(ids.begin());
 	return ids;
 }
-
 
 void UI::getInput()
 {
@@ -256,21 +245,24 @@ void UI::getInput()
 	{
 		char EventType, MissionType;
 		int eventDay, id, targetLoc, numOfDays, sign;
-		fin >> EventType >> MissionType >> eventDay >> id >> targetLoc >> numOfDays >> sign;
+		fin >> EventType;
 		Event* formEvent;
 		switch (EventType)
 		{
 		case 'F':
+			fin >> MissionType >> eventDay >> id >> targetLoc >> numOfDays >> sign;
 			formEvent = new FormulationEvent(id, MissionType, eventDay, targetLoc, numOfDays,sign, station);
 			station->addEvent(formEvent);
 			break;
 
 		case 'X':
+			fin >> id >> eventDay;
 			formEvent = new CancelEvent(id, eventDay, station);
 			station->addEvent(formEvent);
 			break;
 
 		case 'P':
+			fin >> id >> eventDay;
 			formEvent = new CancelEvent(id, eventDay,station);
 			station->addEvent(formEvent);
 			break;

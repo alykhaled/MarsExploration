@@ -13,6 +13,7 @@ public:
 	MissionType getType();
 	void assignRover(Rover* rover);
 	Rover* getAssignedRover();
+	int getExecutionDay();
 	int getID();
 };
 

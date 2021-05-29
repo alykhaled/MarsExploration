@@ -3,7 +3,7 @@
 
 MarsStation::MarsStation()
 {
-	currentDay = 1;
+	currentDay = 0;
 	ui = new UI(this);
 	Events = new queue<Event*>();
 	EmergencyMissions = new queue<Mission*>();
@@ -22,7 +22,7 @@ void MarsStation::nextDay()
 	Event* currentEvent;
 	while (Events->peek(currentEvent))
 	{
-		if (currentEvent->getDay() == currentDay)
+		if (currentEvent->getDay() <= currentDay)
 		{
 			Events->pop(currentEvent);
 			currentEvent->Execute();
@@ -84,6 +84,76 @@ void MarsStation::printOutput()
 int MarsStation::getCurrentDay()
 {
 	return currentDay;
+}
+
+void MarsStation::AssignRover()
+{
+	Mission* current;
+	while (EmergencyMissions->pop(current))
+	{
+		if (current->getExecutionDay() >= currentDay)
+		{
+			if (!EmergencyRovers->isEmpty())
+			{
+				Rover* currentRover;
+				EmergencyRovers->pop(currentRover);
+				current->assignRover(currentRover);
+			}
+			else if (!MountaniousRovers->isEmpty())
+			{
+				Rover* currentRover;
+				MountaniousRovers->pop(currentRover);
+				current->assignRover(currentRover);
+			}
+			else if (!PolarRovers->isEmpty())
+			{
+				Rover* currentRover;
+				PolarRovers->pop(currentRover);
+				current->assignRover(currentRover);
+			}
+			InExecutionMissions->push(current);
+		}
+		else
+		{
+			break;
+		}
+	}
+	/* Mountaious Missions
+	while (MountaniousMissions->pop(current))
+	{
+		if (current->getExecutionDay() >= currentDay)
+		{
+			 if (!MountaniousRovers->isEmpty())
+			{
+				Rover* currentRover;
+				MountaniousRovers->pop(currentRover);
+				current->assignRover(currentRover);
+			}
+			InExecutionMissions->push(current);
+		}
+		else
+		{
+			break;
+		}
+	}
+	*/
+	while (PolarMissions->pop(current))
+	{
+		if (current->getExecutionDay() >= currentDay)
+		{
+			if (!PolarRovers->isEmpty())
+			{
+				Rover* currentRover;
+				PolarRovers->pop(currentRover);
+				current->assignRover(currentRover);
+			}
+			InExecutionMissions->push(current);
+		}
+		else
+		{
+			break;
+		}
+	}
 }
 
 void MarsStation::setMode()

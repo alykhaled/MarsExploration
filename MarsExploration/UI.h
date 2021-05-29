@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include <fstream>
 #include "Utility.h"
 #include "queue.h"
@@ -25,20 +24,22 @@ private:
 	MarsStation* station;
 public:
 	UI(MarsStation* station);
-	void nextDay();
-	void printOutput();
-	void getInput();
-	string getIDs(queue<Mission*>* que);
-	string getLinkedListIDs(LinkedList<Mission*>* list);
-	void printWaitingMissionsList();
-	void printInExecutionList();
-	void printAvaliableRoverList();
-	void printInCheckupRoverList();
-	void printCompletedList();
-	void printInteractiveOutput();
-	void printStepByStepOutput();
-	void printSilentOutput();
-	Mode chooseMode();
+	void nextDay();		//Increase current day depending on Mode
+	void printOutput(); //Print the output depending on Mode
+	void getInput();	//Open the inputs.txt file and read the data
+	
+	string getIDs(queue<Mission*>* que);					//Loop on the queue and return string of ids combined
+	string getLinkedListIDs(LinkedList<Mission*>* list);	//Loop on the LinkedList and return string of ids combined
+	
+	void printWaitingMissionsList();	//
+	void printInExecutionList();		//
+	void printAvaliableRoverList();		//
+	void printInCheckupRoverList();		//
+	void printCompletedList();			//
+
+	void printInteractiveOutput();	//Print Output if the mode is Interactive or Step-By-Step
+	void printSilentOutput();		//Print Output if the mode is Silent Mode 
+	Mode chooseMode();				//Choose the mode from the user
 
 };
 
