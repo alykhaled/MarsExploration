@@ -32,3 +32,10 @@ enum MissionStatus
 	Checked,
 	Completed
 };
+enum Status
+{
+	OnMission,
+	waiting,
+	CheckUp
+};
+
