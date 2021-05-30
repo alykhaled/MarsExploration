@@ -4,11 +4,20 @@
 MarsStation::MarsStation()
 {
 	currentDay = 0;
-	ui = new UI(this);
-	Events = new queue<Event*>();
-	EmergencyMissions = new queue<Mission*>();
+	ui					= new UI(this);
+	Events				= new queue<Event*>();
+	EmergencyMissions	= new queue<Mission*>();
 	MountaniousMissions = new LinkedList<Mission*>();
-	PolarMissions = new queue<Mission*>();
+	PolarMissions		= new queue<Mission*>();
+	EmergencyRovers		= new queue<Rover*>();
+	MountaniousRovers	= new queue<Rover*>();
+	PolarRovers			= new queue<Rover*>();
+	InExecutionMissions = new queue<Mission*>();
+	CompletedMissions	= new queue<Mission*>();
+	EmergencyCheckup	= new queue<Rover*>();
+	MountaniousCheckup	= new queue<Rover*>();
+	PolarCheckup		= new queue<Rover*>();
+
 }
 
 void MarsStation::readInput()
@@ -74,6 +83,46 @@ LinkedList<Mission*>* MarsStation::getMountaniousMissions()
 queue<Mission*>* MarsStation::getPolarMissions()
 {
 	return PolarMissions;
+}
+
+queue<Rover*>* MarsStation::getEmergencyRovers()
+{
+	return EmergencyRovers;
+}
+
+queue<Rover*>* MarsStation::getMountaniousRovers()
+{
+	return MountaniousRovers;
+}
+
+queue<Rover*>* MarsStation::getPolarRovers()
+{
+	return PolarRovers;
+}
+
+queue<Rover*>* MarsStation::getEmergencyCheckup()
+{
+	return EmergencyCheckup;
+}
+
+queue<Rover*>* MarsStation::getMountaniousCheckup()
+{
+	return MountaniousCheckup;
+}
+
+queue<Rover*>* MarsStation::getPolarCheckup()
+{
+	return PolarRovers;
+}
+
+queue<Mission*>* MarsStation::getCompletedMissions()
+{
+	return CompletedMissions;
+}
+
+queue<Mission*>* MarsStation::getInExecutionMissions()
+{
+	return InExecutionMissions;
 }
 
 void MarsStation::printOutput()
@@ -187,14 +236,14 @@ void  MarsStation::CheckDoneRovers()
 		
 	}
 
-	if (!MountainsCheckup->isEmpty())
+	if (!MountaniousCheckup->isEmpty())
 	{
 		Rover* R;
-		if (MountainsCheckup->peek(R))
+		if (MountaniousCheckup->peek(R))
 		{
 			if (R->GetCheckupDuration() == 0)
 			{
-				while (MountainsCheckup->pop(R))
+				while (MountaniousCheckup->pop(R))
 				{
 					if (R->GetStatus() == 0)
 					{

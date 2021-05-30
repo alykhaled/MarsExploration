@@ -54,13 +54,13 @@ void UI::printWaitingMissionsList()
 
 	cout << waitedMissions << " Waiting Missions: ";
 	cout << "[";
-	cout << getIDs(EmergencyMissions);
+	cout << getIDsMissions(EmergencyMissions);
 	cout << "] ";
 	cout << "{";
 	cout << getLinkedListIDs(MountaniousMissions);
 	cout << "} ";
 	cout << "(";
-	cout << getIDs(PolarMissions);
+	cout << getIDsMissions(PolarMissions);
 	cout << ")";
 }
 
@@ -73,51 +73,51 @@ void UI::printInExecutionList()
 
 	cout << waitedMissions << " In-Execution Missions/Rovers: ";
 	cout << "[";
-	cout << getIDs(EmergencyMissions);
+	cout << getIDsMissions(EmergencyMissions);
 	cout << "] ";
 	cout << "{";
 	cout << getLinkedListIDs(MountaniousMissions);
 	cout << "} ";
 	cout << "(";
-	cout << getIDs(PolarMissions);
+	cout << getIDsMissions(PolarMissions);
 	cout << ")";
 }
 
 void UI::printAvaliableRoverList()
 {
-	queue<Mission*>* EmergencyMissions = station->getEmergencyMissions();
-	LinkedList<Mission*>* MountaniousMissions = station->getMountaniousMissions();
-	queue<Mission*>* PolarMissions = station->getPolarMissions();
-	int waitedMissions = EmergencyMissions->getSize() + MountaniousMissions->getSize() + PolarMissions->getSize();
+	queue<Rover*>* EmergencyRovers = station->getEmergencyRovers();
+	queue<Rover*>* MountaniousRovers = station->getMountaniousRovers();
+	queue<Rover*>* PolarRovers = station->getPolarRovers();
+	int waitedMissions = EmergencyRovers->getSize() + MountaniousRovers->getSize() + PolarRovers->getSize();
 
 	cout << waitedMissions << " Avaliable Rovers: ";
 	cout << "[";
-	cout << getIDs(EmergencyMissions);
+	cout << getIDsRovers(EmergencyRovers);
 	cout << "] ";
 	cout << "{";
-	cout << getLinkedListIDs(MountaniousMissions);
+	//cout << getLinkedListIDs(MountaniousMissions);
 	cout << "} ";
 	cout << "(";
-	cout << getIDs(PolarMissions);
+	cout << getIDsRovers(PolarRovers);
 	cout << ")";
 }
 
 void UI::printInCheckupRoverList()
 {
-	queue<Mission*>* EmergencyMissions = station->getEmergencyMissions();
-	LinkedList<Mission*>* MountaniousMissions = station->getMountaniousMissions();
-	queue<Mission*>* PolarMissions = station->getPolarMissions();
-	int waitedMissions = EmergencyMissions->getSize() + MountaniousMissions->getSize() + PolarMissions->getSize();
+	queue<Rover*>* EmergencyCheckupRovers = station->getEmergencyCheckup();
+	queue<Rover*>* MountaniousCheckupRovers = station->getMountaniousCheckup();
+	queue<Rover*>* PolarCheckupRovers = station->getPolarCheckup();
+	int waitedMissions = EmergencyCheckupRovers->getSize() + MountaniousCheckupRovers->getSize() + PolarCheckupRovers->getSize();
 
 	cout << waitedMissions << " In-Checkup Rovers: ";
 	cout << "[";
-	cout << getIDs(EmergencyMissions);
+	cout << getIDsRovers(EmergencyCheckupRovers);
 	cout << "] ";
 	cout << "{";
-	cout << getLinkedListIDs(MountaniousMissions);
+	//cout << getLinkedListIDs(MountaniousCheckupRovers);
 	cout << "} ";
 	cout << "(";
-	cout << getIDs(PolarMissions);
+	cout << getIDsRovers(PolarCheckupRovers);
 	cout << ")";
 }
 
@@ -130,13 +130,13 @@ void UI::printCompletedList()
 
 	cout << waitedMissions << " Completed Missions: ";
 	cout << "[";
-	cout << getIDs(EmergencyMissions);
+	cout << getIDsMissions(EmergencyMissions);
 	cout << "] ";
 	cout << "{";
 	cout << getLinkedListIDs(MountaniousMissions);
 	cout << "} ";
 	cout << "(";
-	cout << getIDs(PolarMissions);
+	cout << getIDsMissions(PolarMissions);
 	cout << ")";
 }
 
@@ -182,7 +182,7 @@ Mode UI::chooseMode()
 	}
 }
 
-string UI::getIDs(queue<Mission*>* que)
+string UI::getIDsMissions(queue<Mission*>* que)
 {
 	if (que->isEmpty())
 	{
@@ -202,6 +202,30 @@ string UI::getIDs(queue<Mission*>* que)
 			break;
 		}
 		ids += "," + to_string(temp->getID());
+	}
+	ids.erase(ids.begin());
+	return ids;
+}
+string UI::getIDsRovers(queue<Rover*>* que)
+{
+	if (que->isEmpty())
+	{
+		return "";
+	}
+	queue<Rover*>* tempQ = new queue<Rover*>(*que);
+	Rover* firstMission;
+	Rover* temp;
+	string ids = "";	
+	tempQ->pop(firstMission);
+	ids += "," + to_string(firstMission->GetID()) ;
+	tempQ->push(firstMission);
+	while (tempQ->pop(temp))
+	{
+		if (temp == firstMission)
+		{
+			break;
+		}
+		ids += "," + to_string(temp->GetID());
 	}
 	ids.erase(ids.begin());
 	return ids;

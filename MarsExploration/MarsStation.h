@@ -15,12 +15,15 @@ private:
 	queue<Mission*>* EmergencyMissions;
 	LinkedList<Mission*>* MountaniousMissions;
 	queue<Mission*>* PolarMissions;
+
 	queue<Rover*>* EmergencyRovers;
 	queue<Rover*>* MountaniousRovers;
 	queue<Rover*>* PolarRovers;
+
 	queue<Mission*>* CompletedMissions;
 	queue<Mission*>* InExecutionMissions;
-	queue<Rover*>* MountainsCheckup;
+
+	queue<Rover*>* MountaniousCheckup;
 	queue<Rover*>* PolarCheckup;
 	queue<Rover*>* EmergencyCheckup;
 	UI* ui;
@@ -30,9 +33,23 @@ public:
 	void nextDay();						//Increase the current day by one execute every event with the same day
 	void addEvent(Event* event);		//Add new event 
 	void addMission(Mission* mission);	//Add new mission
+
 	queue<Mission*>* getEmergencyMissions();	
 	LinkedList<Mission*>* getMountaniousMissions();
 	queue<Mission*>* getPolarMissions();
+
+	queue<Rover*>* getEmergencyRovers();
+	queue<Rover*>* getMountaniousRovers();
+	queue<Rover*>* getPolarRovers();
+
+	queue<Rover*>* getEmergencyCheckup();
+	queue<Rover*>* getMountaniousCheckup();
+	queue<Rover*>* getPolarCheckup();
+
+	queue<Mission*>* getCompletedMissions();
+	queue<Mission*>* getInExecutionMissions();
+
+
 	void printOutput(); //Print the output to the screen "using function from UI class"
 	int getCurrentDay();
 	void AssignRover();

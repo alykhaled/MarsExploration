@@ -28,7 +28,8 @@ public:
 	void printOutput(); //Print the output depending on Mode
 	void getInput();	//Open the inputs.txt file and read the data
 	
-	string getIDs(queue<Mission*>* que);					//Loop on the queue and return string of ids combined
+	string getIDsMissions(queue<Mission*>* que);					//Loop on the queue and return string of ids combined
+	string getIDsRovers(queue<Rover*>* que);					//Loop on the queue and return string of ids combined
 	string getLinkedListIDs(LinkedList<Mission*>* list);	//Loop on the LinkedList and return string of ids combined
 	
 	void printWaitingMissionsList();	//
