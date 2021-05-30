@@ -20,6 +20,9 @@ private:
 	queue<Rover*>* PolarRovers;
 	queue<Mission*>* CompletedMissions;
 	queue<Mission*>* InExecutionMissions;
+	queue<Rover*>* MountainsCheckup;
+	queue<Rover*>* PolarCheckup;
+	queue<Rover*>* EmergencyCheckup;
 	UI* ui;
 public:
 	MarsStation();
@@ -34,4 +37,5 @@ public:
 	int getCurrentDay();
 	void AssignRover();
 	void setMode();		//Set the current mode "using function from UI class"
+	void CheckDoneRovers();  //check if the rover has finished the checkup
 };

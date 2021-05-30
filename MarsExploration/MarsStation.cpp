@@ -160,3 +160,75 @@ void MarsStation::setMode()
 {
 	mode = ui->chooseMode();
 }
+
+void  MarsStation::CheckDoneRovers()
+{
+	
+	if (!PolarCheckup->isEmpty())
+	{
+		Rover* R;
+		if (PolarCheckup->peek(R))
+		{
+			if (R->GetCheckupDuration() == 0)
+			{
+				while (PolarCheckup->pop(R))
+				{
+					if (R->GetStatus() == 0)
+					{
+						PolarRovers->push(R);
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+		}
+		
+	}
+
+	if (!MountainsCheckup->isEmpty())
+	{
+		Rover* R;
+		if (MountainsCheckup->peek(R))
+		{
+			if (R->GetCheckupDuration() == 0)
+			{
+				while (MountainsCheckup->pop(R))
+				{
+					if (R->GetStatus() == 0)
+					{
+						MountaniousRovers->push(R);
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+			
+		}
+	}
+
+	if (!EmergencyCheckup->isEmpty())
+	{
+		Rover* R;
+		if (EmergencyCheckup->peek(R))
+		{
+			if (R->GetCheckupDuration() == 0)
+			{
+				while (EmergencyCheckup->pop(R))
+				{
+					if (R->GetStatus() == 0)
+					{
+						EmergencyRovers->push(R);
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+		}
+	}
+}
