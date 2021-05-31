@@ -3,17 +3,17 @@
 
 MarsStation::MarsStation()
 {
-	currentDay = 0;
+	currentDay			= 0;
 	ui					= new UI(this);
 	Events				= new queue<Event*>();
-	EmergencyMissions	= new queue<Mission*>();
+	EmergencyMissions	= new PriorityQueue<Mission*>();
 	MountaniousMissions = new LinkedList<Mission*>();
 	PolarMissions		= new queue<Mission*>();
-	EmergencyRovers		= new queue<Rover*>();
-	MountaniousRovers	= new queue<Rover*>();
-	PolarRovers			= new queue<Rover*>();
-	InExecutionMissions = new queue<Mission*>();
-	CompletedMissions	= new queue<Mission*>();
+	EmergencyRovers		= new PriorityQueue<Rover*>();
+	MountaniousRovers	= new PriorityQueue<Rover*>();
+	PolarRovers			= new PriorityQueue<Rover*>();
+	InExecutionMissions = new PriorityQueue<Mission*>();
+	CompletedMissions	= new PriorityQueue<Mission*>();
 	EmergencyCheckup	= new queue<Rover*>();
 	MountaniousCheckup	= new queue<Rover*>();
 	PolarCheckup		= new queue<Rover*>();
@@ -112,7 +112,7 @@ queue<Rover*>* MarsStation::getMountaniousCheckup()
 
 queue<Rover*>* MarsStation::getPolarCheckup()
 {
-	return PolarRovers;
+	return PolarCheckup;
 }
 
 queue<Mission*>* MarsStation::getCompletedMissions()
@@ -210,7 +210,7 @@ void MarsStation::setMode()
 	mode = ui->chooseMode();
 }
 
-void  MarsStation::CheckDoneRovers()
+void MarsStation::CheckDoneRovers()
 {
 	
 	if (!PolarCheckup->isEmpty())
@@ -279,5 +279,30 @@ void  MarsStation::CheckDoneRovers()
 				}
 			}
 		}
+	}
+}
+
+void MarsStation::AddRovers(int* ERoversSpeeds, int* MRoversSpeeds, int* PRoversSpeeds, int EmergencyRoversCount, int MountaniousRoversCount, int PolarRoversCount, int CM, int CP, int CE)
+{
+	int id = 1;
+	for (int i = 0; i < EmergencyRoversCount; i++)
+	{
+		Rover* newRover = new Rover(Emergency, waiting, CE, ERoversSpeeds[i], id);
+		EmergencyRovers->push(newRover);
+		id++;
+	}
+
+	for (int i = 0; i < MountaniousRoversCount; i++)
+	{
+		Rover* newRover = new Rover(Mountanious, waiting, CM, MRoversSpeeds[i], id);
+		MountaniousRovers->push(newRover);
+		id++;
+	}
+
+	for (int i = 0; i < PolarRoversCount; i++)
+	{
+		Rover* newRover = new Rover(Polar, waiting, CP, PRoversSpeeds[i], id);
+		PolarRovers->push(newRover);
+		id++;
 	}
 }

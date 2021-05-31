@@ -1,6 +1,5 @@
 #include "UI.h"
 #include <iostream>
-
 #include <limits> 
 #include <ios> 
 #include "MarsStation.h"
@@ -66,7 +65,7 @@ void UI::printWaitingMissionsList()
 
 void UI::printInExecutionList()
 {
-	queue<Mission*>* EmergencyMissions = station->getEmergencyMissions();
+	/*queue<Mission*>* EmergencyMissions = station->getEmergencyMissions();
 	LinkedList<Mission*>* MountaniousMissions = station->getMountaniousMissions();
 	queue<Mission*>* PolarMissions = station->getPolarMissions();
 	int waitedMissions = EmergencyMissions->getSize() + MountaniousMissions->getSize() + PolarMissions->getSize();
@@ -80,7 +79,7 @@ void UI::printInExecutionList()
 	cout << "} ";
 	cout << "(";
 	cout << getIDsMissions(PolarMissions);
-	cout << ")";
+	cout << ")";*/
 }
 
 void UI::printAvaliableRoverList()
@@ -95,7 +94,7 @@ void UI::printAvaliableRoverList()
 	cout << getIDsRovers(EmergencyRovers);
 	cout << "] ";
 	cout << "{";
-	//cout << getLinkedListIDs(MountaniousMissions);
+	cout << getIDsRovers(MountaniousRovers);
 	cout << "} ";
 	cout << "(";
 	cout << getIDsRovers(PolarRovers);
@@ -114,7 +113,7 @@ void UI::printInCheckupRoverList()
 	cout << getIDsRovers(EmergencyCheckupRovers);
 	cout << "] ";
 	cout << "{";
-	//cout << getLinkedListIDs(MountaniousCheckupRovers);
+	cout << getIDsRovers(MountaniousCheckupRovers);
 	cout << "} ";
 	cout << "(";
 	cout << getIDsRovers(PolarCheckupRovers);
@@ -206,6 +205,7 @@ string UI::getIDsMissions(queue<Mission*>* que)
 	ids.erase(ids.begin());
 	return ids;
 }
+
 string UI::getIDsRovers(queue<Rover*>* que)
 {
 	if (que->isEmpty())
@@ -254,11 +254,32 @@ void UI::getInput()
 	int mRovers, pRovers, eRovers;
 	fin >> mRovers >> pRovers >> eRovers;
 
-	int mSpeed, pSpeed, eSpeed;
-	fin >> mSpeed >> pSpeed >> eSpeed;
+	/*int mSpeed, pSpeed, eSpeed;
+	fin >> mSpeed >> pSpeed >> eSpeed;*/
+
+	int * MRoversSpeeds = new int[mRovers];
+	int * ERoversSpeeds = new int[eRovers];
+	int * PRoversSpeeds = new int[pRovers];
+
+	for (int i = 0; i < mRovers; i++)
+	{
+		fin >> MRoversSpeeds[i];
+	}
+	
+	for (int i = 0; i < pRovers; i++)
+	{
+		fin >> PRoversSpeeds[i];
+	}
+
+	for (int i = 0; i < eRovers; i++)
+	{
+		fin >> ERoversSpeeds[i];
+	}
+	
 
 	int N, CM, CP, CE;
 	fin >> N >> CM >> CP >> CE;
+	station->AddRovers(ERoversSpeeds, MRoversSpeeds, PRoversSpeeds, mRovers, pRovers, eRovers, CM, CP, CE);
 
 	int autoP;
 	fin >> autoP;

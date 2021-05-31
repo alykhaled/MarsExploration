@@ -2,6 +2,7 @@
 #include "Event.h"
 #include "LinkedList.h"
 #include "queue.h"
+#include "PriorityQueue.h"
 #include "UI.h"
 #include "Mission.h"
 #include "Rover.h"
@@ -12,16 +13,16 @@ private:
 	int currentDay;
 	Mode mode;
 	queue<Event*>* Events;
-	queue<Mission*>* EmergencyMissions;
+	PriorityQueue<Mission*>* EmergencyMissions;
 	LinkedList<Mission*>* MountaniousMissions;
 	queue<Mission*>* PolarMissions;
 
-	queue<Rover*>* EmergencyRovers;
-	queue<Rover*>* MountaniousRovers;
-	queue<Rover*>* PolarRovers;
+	PriorityQueue<Rover*>* EmergencyRovers;
+	PriorityQueue<Rover*>* MountaniousRovers;
+	PriorityQueue<Rover*>* PolarRovers;
 
-	queue<Mission*>* CompletedMissions;
-	queue<Mission*>* InExecutionMissions;
+	PriorityQueue<Mission*>* CompletedMissions;
+	PriorityQueue<Mission*>* InExecutionMissions;
 
 	queue<Rover*>* MountaniousCheckup;
 	queue<Rover*>* PolarCheckup;
@@ -55,4 +56,5 @@ public:
 	void AssignRover();
 	void setMode();		//Set the current mode "using function from UI class"
 	void CheckDoneRovers();  //check if the rover has finished the checkup
+	void AddRovers(int* ERoversSpeeds, int* MRoversSpeeds, int* PRoversSpeeds, int EmergencyRovers, int MountaniousRovers, int PolarRovers, int CM, int CP, int CE);
 };

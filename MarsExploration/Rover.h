@@ -3,15 +3,15 @@
 class Rover
 {
 private :
-	Mode MissionType;
+	MissionType RoverType;
 	Status state;
 	int CheckupDuration;
 	int speed;
 	int ID;
 public:
-	Rover(Mode MType, Status state, int CheckDuration, int speed, int ID)
+	Rover(MissionType MType, Status state, int CheckDuration, int speed, int ID)
 	{
-		this->MissionType = MType;
+		this->RoverType = MType;
 		this->state = state;
 		this->CheckupDuration = CheckDuration;
 		this->speed = speed;
@@ -19,9 +19,9 @@ public:
 	}
 
 	//getters
-	Mode GetMode()
+	MissionType GetMode()
 	{
-		return MissionType;
+		return RoverType;
 	}
 	Status GetStatus()
 	{
@@ -41,9 +41,9 @@ public:
 	}
 
 	//setter
-	void SetMode(Mode M)
+	void SetState(Status M)
 	{
-		MissionType = M;
+		state = M;
 	}
 
 
