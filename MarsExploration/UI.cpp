@@ -46,20 +46,20 @@ void UI::printOutput()
 
 void UI::printWaitingMissionsList()
 {
-	queue<Mission*>* EmergencyMissions = station->getEmergencyMissions();
+	PriorityQueue<Mission*>* EmergencyMissions = station->getEmergencyMissions();
 	LinkedList<Mission*>* MountaniousMissions = station->getMountaniousMissions();
 	queue<Mission*>* PolarMissions = station->getPolarMissions();
 	int waitedMissions = EmergencyMissions->getSize() + MountaniousMissions->getSize() + PolarMissions->getSize();
 
 	cout << waitedMissions << " Waiting Missions: ";
 	cout << "[";
-	cout << getIDsMissions(EmergencyMissions);
+	cout << getIDsPriorityQueueMissions(EmergencyMissions);
 	cout << "] ";
 	cout << "{";
 	cout << getLinkedListIDs(MountaniousMissions);
 	cout << "} ";
 	cout << "(";
-	cout << getIDsMissions(PolarMissions);
+	cout << getIDsQueueMissions(PolarMissions);
 	cout << ")";
 }
 
@@ -69,35 +69,35 @@ void UI::printInExecutionList()
 	LinkedList<Mission*>* MountaniousMissions = station->getMountaniousMissions();
 	queue<Mission*>* PolarMissions = station->getPolarMissions();
 	int waitedMissions = EmergencyMissions->getSize() + MountaniousMissions->getSize() + PolarMissions->getSize();
-
-	cout << waitedMissions << " In-Execution Missions/Rovers: ";
+	*/
+	cout << 0 << " In-Execution Missions/Rovers: ";
 	cout << "[";
-	cout << getIDsMissions(EmergencyMissions);
+	//cout << getIDsMissions(EmergencyMissions);
 	cout << "] ";
 	cout << "{";
-	cout << getLinkedListIDs(MountaniousMissions);
+	//cout << getLinkedListIDs(MountaniousMissions);
 	cout << "} ";
 	cout << "(";
-	cout << getIDsMissions(PolarMissions);
-	cout << ")";*/
+	//cout << getIDsMissions(PolarMissions);
+	cout << ")";
 }
 
 void UI::printAvaliableRoverList()
 {
-	queue<Rover*>* EmergencyRovers = station->getEmergencyRovers();
-	queue<Rover*>* MountaniousRovers = station->getMountaniousRovers();
-	queue<Rover*>* PolarRovers = station->getPolarRovers();
+	PriorityQueue<Rover*>* EmergencyRovers = station->getEmergencyRovers();
+	PriorityQueue<Rover*>* MountaniousRovers = station->getMountaniousRovers();
+	PriorityQueue<Rover*>* PolarRovers = station->getPolarRovers();
 	int waitedMissions = EmergencyRovers->getSize() + MountaniousRovers->getSize() + PolarRovers->getSize();
 
 	cout << waitedMissions << " Avaliable Rovers: ";
 	cout << "[";
-	cout << getIDsRovers(EmergencyRovers);
+	cout << getIDsPriorityQueueRovers(EmergencyRovers);
 	cout << "] ";
 	cout << "{";
-	cout << getIDsRovers(MountaniousRovers);
+	cout << getIDsPriorityQueueRovers(MountaniousRovers);
 	cout << "} ";
 	cout << "(";
-	cout << getIDsRovers(PolarRovers);
+	cout << getIDsPriorityQueueRovers(PolarRovers);
 	cout << ")";
 }
 
@@ -110,32 +110,32 @@ void UI::printInCheckupRoverList()
 
 	cout << waitedMissions << " In-Checkup Rovers: ";
 	cout << "[";
-	cout << getIDsRovers(EmergencyCheckupRovers);
+	cout << getIDsQueueRovers(EmergencyCheckupRovers);
 	cout << "] ";
 	cout << "{";
-	cout << getIDsRovers(MountaniousCheckupRovers);
+	cout << getIDsQueueRovers(MountaniousCheckupRovers);
 	cout << "} ";
 	cout << "(";
-	cout << getIDsRovers(PolarCheckupRovers);
+	cout << getIDsQueueRovers(PolarCheckupRovers);
 	cout << ")";
 }
 
 void UI::printCompletedList()
 {
-	queue<Mission*>* EmergencyMissions = station->getEmergencyMissions();
+	/*queue<Mission*>* EmergencyMissions = station->getEmergencyMissions();
 	LinkedList<Mission*>* MountaniousMissions = station->getMountaniousMissions();
 	queue<Mission*>* PolarMissions = station->getPolarMissions();
-	int waitedMissions = EmergencyMissions->getSize() + MountaniousMissions->getSize() + PolarMissions->getSize();
+	int waitedMissions = EmergencyMissions->getSize() + MountaniousMissions->getSize() + PolarMissions->getSize();*/
 
-	cout << waitedMissions << " Completed Missions: ";
+	cout << 0 << " Completed Missions: ";
 	cout << "[";
-	cout << getIDsMissions(EmergencyMissions);
+	//cout << getIDsMissions(EmergencyMissions);
 	cout << "] ";
 	cout << "{";
-	cout << getLinkedListIDs(MountaniousMissions);
+	//cout << getLinkedListIDs(MountaniousMissions);
 	cout << "} ";
 	cout << "(";
-	cout << getIDsMissions(PolarMissions);
+	//cout << getIDsMissions(PolarMissions);
 	cout << ")";
 }
 
@@ -181,7 +181,7 @@ Mode UI::chooseMode()
 	}
 }
 
-string UI::getIDsMissions(queue<Mission*>* que)
+string UI::getIDsQueueMissions(queue<Mission*>* que)
 {
 	if (que->isEmpty())
 	{
@@ -205,8 +205,32 @@ string UI::getIDsMissions(queue<Mission*>* que)
 	ids.erase(ids.begin());
 	return ids;
 }
+string UI::getIDsPriorityQueueMissions(PriorityQueue<Mission*>* que)
+{
+	if (que->isEmpty())
+	{
+		return "";
+	}
+	PriorityQueue<Mission*>* tempQ = new PriorityQueue<Mission*>(*que);
+	Mission* firstMission;
+	Mission* temp;
+	string ids = "";
+	tempQ->pop(firstMission);
+	ids += "," + to_string(firstMission->getID());
+	tempQ->push(firstMission,0);
+	while (tempQ->pop(temp))
+	{
+		if (temp == firstMission)
+		{
+			break;
+		}
+		ids += "," + to_string(temp->getID());
+	}
+	ids.erase(ids.begin());
+	return ids;
+}
 
-string UI::getIDsRovers(queue<Rover*>* que)
+string UI::getIDsQueueRovers(queue<Rover*>* que)
 {
 	if (que->isEmpty())
 	{
@@ -219,6 +243,31 @@ string UI::getIDsRovers(queue<Rover*>* que)
 	tempQ->pop(firstMission);
 	ids += "," + to_string(firstMission->GetID()) ;
 	tempQ->push(firstMission);
+	while (tempQ->pop(temp))
+	{
+		if (temp == firstMission)
+		{
+			break;
+		}
+		ids += "," + to_string(temp->GetID());
+	}
+	ids.erase(ids.begin());
+	return ids;
+}
+
+string UI::getIDsPriorityQueueRovers(PriorityQueue<Rover*>* que)
+{
+	if (que->isEmpty())
+	{
+		return "";
+	}
+	PriorityQueue<Rover*>* tempQ = new PriorityQueue<Rover*>(*que);
+	Rover* firstMission;
+	Rover* temp;
+	string ids = "";
+	tempQ->pop(firstMission);
+	ids += "," + to_string(firstMission->GetID());
+	tempQ->push(firstMission, firstMission->GetSpeed());
 	while (tempQ->pop(temp))
 	{
 		if (temp == firstMission)

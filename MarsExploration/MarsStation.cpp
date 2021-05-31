@@ -54,7 +54,7 @@ void MarsStation::addMission(Mission* mission)
 	switch (mission->getType())
 	{
 	case Emergency:
-		EmergencyMissions->push(mission);
+		EmergencyMissions->push(mission,0);
 		break;
 
 	case Mountanious:
@@ -70,7 +70,7 @@ void MarsStation::addMission(Mission* mission)
 	}
 }
 
-queue<Mission*>* MarsStation::getEmergencyMissions()
+PriorityQueue<Mission*>* MarsStation::getEmergencyMissions()
 {
 	return EmergencyMissions;
 }
@@ -85,17 +85,17 @@ queue<Mission*>* MarsStation::getPolarMissions()
 	return PolarMissions;
 }
 
-queue<Rover*>* MarsStation::getEmergencyRovers()
+PriorityQueue<Rover*>* MarsStation::getEmergencyRovers()
 {
 	return EmergencyRovers;
 }
 
-queue<Rover*>* MarsStation::getMountaniousRovers()
+PriorityQueue<Rover*>* MarsStation::getMountaniousRovers()
 {
 	return MountaniousRovers;
 }
 
-queue<Rover*>* MarsStation::getPolarRovers()
+PriorityQueue<Rover*>* MarsStation::getPolarRovers()
 {
 	return PolarRovers;
 }
@@ -115,12 +115,12 @@ queue<Rover*>* MarsStation::getPolarCheckup()
 	return PolarCheckup;
 }
 
-queue<Mission*>* MarsStation::getCompletedMissions()
+PriorityQueue<Mission*>* MarsStation::getCompletedMissions()
 {
 	return CompletedMissions;
 }
 
-queue<Mission*>* MarsStation::getInExecutionMissions()
+PriorityQueue<Mission*>* MarsStation::getInExecutionMissions()
 {
 	return InExecutionMissions;
 }
@@ -160,7 +160,7 @@ void MarsStation::AssignRover()
 				PolarRovers->pop(currentRover);
 				current->assignRover(currentRover);
 			}
-			InExecutionMissions->push(current);
+			InExecutionMissions->push(current,0);
 		}
 		else
 		{
@@ -196,7 +196,7 @@ void MarsStation::AssignRover()
 				PolarRovers->pop(currentRover);
 				current->assignRover(currentRover);
 			}
-			InExecutionMissions->push(current);
+			InExecutionMissions->push(current,0);
 		}
 		else
 		{
@@ -224,7 +224,7 @@ void MarsStation::CheckDoneRovers()
 				{
 					if (R->GetStatus() == 0)
 					{
-						PolarRovers->push(R);
+						PolarRovers->push(R,R->GetSpeed());
 					}
 					else
 					{
@@ -247,7 +247,7 @@ void MarsStation::CheckDoneRovers()
 				{
 					if (R->GetStatus() == 0)
 					{
-						MountaniousRovers->push(R);
+						MountaniousRovers->push(R, R->GetSpeed());
 					}
 					else
 					{
@@ -270,7 +270,7 @@ void MarsStation::CheckDoneRovers()
 				{
 					if (R->GetStatus() == 0)
 					{
-						EmergencyRovers->push(R);
+						EmergencyRovers->push(R, R->GetSpeed());
 					}
 					else
 					{
@@ -288,21 +288,21 @@ void MarsStation::AddRovers(int* ERoversSpeeds, int* MRoversSpeeds, int* PRovers
 	for (int i = 0; i < EmergencyRoversCount; i++)
 	{
 		Rover* newRover = new Rover(Emergency, waiting, CE, ERoversSpeeds[i], id);
-		EmergencyRovers->push(newRover);
+		EmergencyRovers->push(newRover, ERoversSpeeds[i]);
 		id++;
 	}
 
 	for (int i = 0; i < MountaniousRoversCount; i++)
 	{
 		Rover* newRover = new Rover(Mountanious, waiting, CM, MRoversSpeeds[i], id);
-		MountaniousRovers->push(newRover);
+		MountaniousRovers->push(newRover, MRoversSpeeds[i]);
 		id++;
 	}
 
 	for (int i = 0; i < PolarRoversCount; i++)
 	{
 		Rover* newRover = new Rover(Polar, waiting, CP, PRoversSpeeds[i], id);
-		PolarRovers->push(newRover);
+		PolarRovers->push(newRover, PRoversSpeeds[i]);
 		id++;
 	}
 }

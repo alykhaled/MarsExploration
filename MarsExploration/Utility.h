@@ -12,6 +12,20 @@ struct Node
 	}
 };
 
+template <typename T>
+struct NodeL
+{
+	T item;
+	NodeL* next;
+	int key;
+	NodeL(T event, int Value)
+	{
+		item = event;
+		next = nullptr;
+		key = Value;
+	}
+};
+
 enum Mode 
 {
 	Interactive,

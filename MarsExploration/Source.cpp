@@ -11,7 +11,7 @@ int main()
 	{
 		Station.nextDay();
 		/*Station.CheckDoneRovers();*/
-		Station.AssignRover();
+		//Station.AssignRover();
 		Station.printOutput();
 	}
 	return 0;

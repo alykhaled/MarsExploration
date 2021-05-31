@@ -1,22 +1,5 @@
 #pragma once
-
-
-template <typename T>
-struct Node
-{
-	T item;
-	Node* next;
-	int key;
-	Node(T event, int Value)
-	{
-		item = event;
-		next = nullptr;
-		key = Value;
-	}
-};
-
-
-
+#include "Utility.h"
 
 template<typename T>
 class PriorityQueue
@@ -24,8 +7,8 @@ class PriorityQueue
 {
 private:
 
-	Node<T>* backPtr;
-	Node<T>* frontPtr;
+	NodeL<T>* backPtr;
+	NodeL<T>* frontPtr;
 	int sizeF;
 public:
 	PriorityQueue();
@@ -67,25 +50,25 @@ bool PriorityQueue<T>::push(const T& newEntry, int value)
 {
 	sizeF++;
 
-	Node<T>* newNodePtr = new Node<T>(newEntry, value);
-	// Insert the new node
-	if (isEmpty())	//special case if this is the first node to insert
-		frontPtr = newNodePtr; // The PriorityQueue is empty
+	NodeL<T>* newNodeLPtr = new NodeL<T>(newEntry, value);
+	// Insert the new NodeL
+	if (isEmpty())	//special case if this is the first NodeL to insert
+		frontPtr = newNodeLPtr; // The PriorityQueue is empty
 	else
 	{
 		if (frontPtr->key < value)
 		{
-			newNodePtr->next = frontPtr;
-			frontPtr = newNodePtr;
+			newNodeLPtr->next = frontPtr;
+			frontPtr = newNodeLPtr;
 		}
 		else
 		{
 
-			Node<T>* current = frontPtr;
+			NodeL<T>* current = frontPtr;
 			if (current->next == nullptr)
 			{
-				current->next = newNodePtr;
-				backPtr = newNodePtr;
+				current->next = newNodeLPtr;
+				backPtr = newNodeLPtr;
 				return true;
 			}
 
@@ -95,15 +78,15 @@ bool PriorityQueue<T>::push(const T& newEntry, int value)
 
 				if (current->key <= value && current->next->key < value)
 				{
-					newNodePtr->next = current->next;
-					current->next = newNodePtr;
+					newNodeLPtr->next = current->next;
+					current->next = newNodeLPtr;
 					return true;
 				}
 				current = current->next;
 			}
 
-			current->next = newNodePtr;
-			backPtr = newNodePtr;
+			current->next = newNodeLPtr;
+			backPtr = newNodeLPtr;
 		}
 	}
 
@@ -117,15 +100,15 @@ bool PriorityQueue<T>::pop(T& frntEntry)
 	if (isEmpty())
 		return false;
 
-	Node<T>* nodeToDeletePtr = frontPtr;
+	NodeL<T>* NodeLToDeletePtr = frontPtr;
 	frntEntry = frontPtr->item;
 	frontPtr = frontPtr->next;
 	// PriorityQueue is not empty; remove front
-	if (nodeToDeletePtr == backPtr)	 // Special case: last node in the PriorityQueue
+	if (NodeLToDeletePtr == backPtr)	 // Special case: last NodeL in the PriorityQueue
 		backPtr = nullptr;
 
-	// Free memory reserved for the dequeued node
-	delete nodeToDeletePtr;
+	// Free memory reserved for the dequeued NodeL
+	delete NodeLToDeletePtr;
 	sizeF--;
 	return true;
 }
@@ -146,7 +129,7 @@ PriorityQueue<T>::~PriorityQueue()
 {
 	T temp;
 
-	//Free (Dequeue) all nodes in the PriorityQueue
+	//Free (Dequeue) all NodeLs in the PriorityQueue
 	while (pop(temp));
 }
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -154,24 +137,24 @@ PriorityQueue<T>::~PriorityQueue()
 template <typename T>
 PriorityQueue<T>::PriorityQueue(const PriorityQueue<T>& LQ)
 {
-	Node<T>* NodePtr = LQ.frontPtr;
-	if (!NodePtr) //LQ is empty
+	NodeL<T>* NodeLPtr = LQ.frontPtr;
+	if (!NodeLPtr) //LQ is empty
 	{
 		frontPtr = backPtr = nullptr;
 		return;
 	}
-
-	//insert the first node
-	Node<T>* ptr = new Node<T>(NodePtr->item);
+	sizeF = LQ.sizeF;
+	//insert the first NodeL
+	NodeL<T>* ptr = new NodeL<T>(NodeLPtr->item, NodeLPtr->key);
 	frontPtr = backPtr = ptr;
-	NodePtr = NodePtr->next;
+	NodeLPtr = NodeLPtr->next;
 
-	//insert remaining nodes
-	while (NodePtr)
+	//insert remaining NodeLs
+	while (NodeLPtr)
 	{
-		Node<T>* ptr = new Node<T>(NodePtr->item);
+		NodeL<T>* ptr = new NodeL<T>(NodeLPtr->item, NodeLPtr->key);
 		backPtr->next = ptr;
 		backPtr = ptr;
-		NodePtr = NodePtr->next;
+		NodeLPtr = NodeLPtr->next;
 	}
 };

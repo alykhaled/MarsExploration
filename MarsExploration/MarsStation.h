@@ -35,20 +35,20 @@ public:
 	void addEvent(Event* event);		//Add new event 
 	void addMission(Mission* mission);	//Add new mission
 
-	queue<Mission*>* getEmergencyMissions();	
+	PriorityQueue<Mission*>* getEmergencyMissions();
 	LinkedList<Mission*>* getMountaniousMissions();
 	queue<Mission*>* getPolarMissions();
 
-	queue<Rover*>* getEmergencyRovers();
-	queue<Rover*>* getMountaniousRovers();
-	queue<Rover*>* getPolarRovers();
+	PriorityQueue<Rover*>* getEmergencyRovers();
+	PriorityQueue<Rover*>* getMountaniousRovers();
+	PriorityQueue<Rover*>* getPolarRovers();
 
 	queue<Rover*>* getEmergencyCheckup();
 	queue<Rover*>* getMountaniousCheckup();
 	queue<Rover*>* getPolarCheckup();
 
-	queue<Mission*>* getCompletedMissions();
-	queue<Mission*>* getInExecutionMissions();
+	PriorityQueue<Mission*>* getCompletedMissions();
+	PriorityQueue<Mission*>* getInExecutionMissions();
 
 
 	void printOutput(); //Print the output to the screen "using function from UI class"

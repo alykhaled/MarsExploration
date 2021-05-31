@@ -2,6 +2,7 @@
 #include <fstream>
 #include "Utility.h"
 #include "queue.h"
+#include "PriorityQueue.h"
 #include "Mission.h"
 #include <stdlib.h>
 #include "Event.h"
@@ -28,8 +29,10 @@ public:
 	void printOutput(); //Print the output depending on Mode
 	void getInput();	//Open the inputs.txt file and read the data
 	
-	string getIDsMissions(queue<Mission*>* que);					//Loop on the queue and return string of ids combined
-	string getIDsRovers(queue<Rover*>* que);					//Loop on the queue and return string of ids combined
+	string getIDsQueueMissions(queue<Mission*>* que);					//Loop on the queue and return string of ids combined
+	string getIDsPriorityQueueMissions(PriorityQueue<Mission*>* que);					//Loop on the queue and return string of ids combined
+	string getIDsQueueRovers(queue<Rover*>* que);					//Loop on the queue and return string of ids combined
+	string getIDsPriorityQueueRovers(PriorityQueue<Rover*>* que);					//Loop on the queue and return string of ids combined
 	string getLinkedListIDs(LinkedList<Mission*>* list);	//Loop on the LinkedList and return string of ids combined
 	
 	void printWaitingMissionsList();	//
