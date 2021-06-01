@@ -272,9 +272,9 @@ string UI::getIDsQueueMissions(queue<Mission*>* que)
 	queue<Mission*>* tempQ = new queue<Mission*>(*que);
 	Mission* firstMission;
 	Mission* temp;
-	string ids = "";	
+	string ids = "";
 	tempQ->pop(firstMission);
-	ids += "," + to_string(firstMission->getID()) ;
+	ids += "," + to_string(firstMission->getID());
 	tempQ->push(firstMission);
 	while (tempQ->pop(temp))
 	{
@@ -287,6 +287,7 @@ string UI::getIDsQueueMissions(queue<Mission*>* que)
 	ids.erase(ids.begin());
 	return ids;
 }
+
 string UI::getIDsPriorityQueueMissions(PriorityQueue<Mission*>* que)
 {
 	if (que->isEmpty())
@@ -294,18 +295,10 @@ string UI::getIDsPriorityQueueMissions(PriorityQueue<Mission*>* que)
 		return "";
 	}
 	PriorityQueue<Mission*>* tempQ = new PriorityQueue<Mission*>(*que);
-	Mission* firstMission;
 	Mission* temp;
 	string ids = "";
-	tempQ->pop(firstMission);
-	ids += "," + to_string(firstMission->getID());
-	tempQ->push(firstMission,0);
 	while (tempQ->pop(temp))
 	{
-		if (temp == firstMission)
-		{
-			break;
-		}
 		ids += "," + to_string(temp->getID());
 	}
 	ids.erase(ids.begin());
@@ -321,9 +314,9 @@ string UI::getIDsQueueRovers(queue<Rover*>* que)
 	queue<Rover*>* tempQ = new queue<Rover*>(*que);
 	Rover* firstMission;
 	Rover* temp;
-	string ids = "";	
+	string ids = "";
 	tempQ->pop(firstMission);
-	ids += "," + to_string(firstMission->GetID()) ;
+	ids += "," + to_string(firstMission->GetID());
 	tempQ->push(firstMission);
 	while (tempQ->pop(temp))
 	{
@@ -344,18 +337,10 @@ string UI::getIDsPriorityQueueRovers(PriorityQueue<Rover*>* que)
 		return "";
 	}
 	PriorityQueue<Rover*>* tempQ = new PriorityQueue<Rover*>(*que);
-	Rover* firstMission;
 	Rover* temp;
 	string ids = "";
-	tempQ->pop(firstMission);
-	ids += "," + to_string(firstMission->GetID());
-	tempQ->push(firstMission, firstMission->GetSpeed());
 	while (tempQ->pop(temp))
 	{
-		if (temp == firstMission)
-		{
-			break;
-		}
 		ids += "," + to_string(temp->GetID());
 	}
 	ids.erase(ids.begin());
