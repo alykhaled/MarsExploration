@@ -61,7 +61,7 @@ public:
 	void AssignRover();
 	void setMode();		//Set the current mode "using function from UI class"
 	void CheckDoneRovers();  //check if the rover has finished the checkup
-	void AddRovers(int* ERoversSpeeds, int* MRoversSpeeds, int* PRoversSpeeds, int EmergencyRovers, int MountaniousRovers, int PolarRovers, int CM, int CP, int CE);
+	void AddRovers(int NumberOfMissions,int* ERoversSpeeds, int* MRoversSpeeds, int* PRoversSpeeds, int EmergencyRovers, int MountaniousRovers, int PolarRovers, int CM, int CP, int CE);
 
 
 	void CheckCompletedMissions();

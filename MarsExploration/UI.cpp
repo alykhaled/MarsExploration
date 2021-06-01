@@ -411,7 +411,7 @@ void UI::getInput()
 
 	int N, CM, CP, CE;
 	fin >> N >> CM >> CP >> CE;
-	station->AddRovers(ERoversSpeeds, MRoversSpeeds, PRoversSpeeds, mRovers, pRovers, eRovers, CM, CP, CE);
+	station->AddRovers(N,ERoversSpeeds, MRoversSpeeds, PRoversSpeeds, mRovers, pRovers, eRovers, CM, CP, CE);
 
 	int autoP;
 	fin >> autoP;

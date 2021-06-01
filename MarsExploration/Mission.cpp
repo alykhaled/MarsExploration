@@ -57,6 +57,12 @@ int Mission::getWaitingDay()
 	return waitingDay;
 }
 
+int Mission::priorityCalculation()
+{
+	//write the priorityequation_here
+	return 0;
+}
+
 void Mission::ChangeType()
 {
 	Type = Emergency;

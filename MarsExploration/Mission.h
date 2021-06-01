@@ -22,6 +22,8 @@ public:
 	int getExcutionDay();
 	int getWaitingDay();
 
+
+	int priorityCalculation();         //to calculate the priority of a mission (it will be used mainly for emergency ones)
 	void ChangeType();  // to change the type of the mountanious mission in prompteEvent
 	bool operator == (const Mission*& rhs);
 };

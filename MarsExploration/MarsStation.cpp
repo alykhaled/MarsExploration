@@ -62,7 +62,8 @@ void MarsStation::addMission(Mission* mission)
 	switch (mission->getType())
 	{
 	case Emergency:
-		EmergencyMissions->push(mission,0);
+
+		EmergencyMissions->push(mission,mission->priorityCalculation());
 		break;
 
 	case Mountanious:
@@ -219,6 +220,72 @@ void MarsStation::setMode()
 }
 
 void MarsStation::CheckDoneRovers()
+/*
+{
+	Rover* R;
+	if (!EmergencyCheckup->isEmpty())
+	{
+		EmergencyCheckup->peek(R);
+		while (true)
+		{
+			if (R->getFlagDay() + R->GetCheckupDuration() == currentDay)
+			{
+				EmergencyCheckup->pop(R);
+				R->SetState(waiting);
+				R->resetNumberOfMissions();
+				EmergencyRovers->push(R, R->GetSpeed());
+			}
+			else
+			{
+				break;
+			}
+
+		}
+	}
+
+	if (!MountaniousCheckup->isEmpty())
+	{
+		MountaniousCheckup->peek(R);
+		while (true)
+		{
+			if (R->getFlagDay() + R->GetCheckupDuration() == currentDay)
+			{
+				MountaniousCheckup->pop(R);
+				R->SetState(waiting);
+				R->resetNumberOfMissions();
+				MountaniousRovers->push(R, R->GetSpeed());
+			}
+			else
+			{
+				break;
+			}
+
+		}
+	}
+
+	if (!PolarCheckup->isEmpty())
+	{
+		PolarCheckup->peek(R);
+		while (true)
+		{
+			if (R->getFlagDay() + R->GetCheckupDuration() == currentDay)
+			{
+				PolarCheckup->pop(R);
+				R->SetState(waiting);
+				R->resetNumberOfMissions();
+				PolarRovers->push(R, R->GetSpeed());
+			}
+			else
+			{
+				break;
+			}
+
+		}
+	}
+
+}
+*/
+
 {
 	
 	if (!PolarCheckup->isEmpty())
@@ -290,7 +357,9 @@ void MarsStation::CheckDoneRovers()
 	}
 }
 
-void MarsStation::AddRovers(int* ERoversSpeeds, int* MRoversSpeeds, int* PRoversSpeeds, int EmergencyRoversCount, int MountaniousRoversCount, int PolarRoversCount, int CM, int CP, int CE)
+
+
+void MarsStation::AddRovers(int NumberOfMissions,int* ERoversSpeeds, int* MRoversSpeeds, int* PRoversSpeeds, int EmergencyRoversCount, int MountaniousRoversCount, int PolarRoversCount, int CM, int CP, int CE)
 {
 	NumOfTotalRovers = EmergencyRoversCount + MountaniousRoversCount + PolarRoversCount;
 	NumOfEmrR = EmergencyRoversCount;
@@ -299,21 +368,21 @@ void MarsStation::AddRovers(int* ERoversSpeeds, int* MRoversSpeeds, int* PRovers
 	int id = 1;
 	for (int i = 0; i < EmergencyRoversCount; i++)
 	{
-		Rover* newRover = new Rover(Emergency, waiting, CE, ERoversSpeeds[i], id);
+		Rover* newRover = new Rover(Emergency, waiting, CE, ERoversSpeeds[i], id, NumberOfMissions);
 		EmergencyRovers->push(newRover, ERoversSpeeds[i]);
 		id++;
 	}
 
 	for (int i = 0; i < MountaniousRoversCount; i++)
 	{
-		Rover* newRover = new Rover(Mountanious, waiting, CM, MRoversSpeeds[i], id);
+		Rover* newRover = new Rover(Mountanious, waiting, CM, MRoversSpeeds[i], id, NumberOfMissions);
 		MountaniousRovers->push(newRover, MRoversSpeeds[i]);
 		id++;
 	}
 
 	for (int i = 0; i < PolarRoversCount; i++)
 	{
-		Rover* newRover = new Rover(Polar, waiting, CP, PRoversSpeeds[i], id);
+		Rover* newRover = new Rover(Polar, waiting, CP, PRoversSpeeds[i], id, NumberOfMissions);
 		PolarRovers->push(newRover, PRoversSpeeds[i]);
 		id++;
 	}
@@ -331,6 +400,44 @@ void MarsStation::CheckCompletedMissions()
 			{
 				InExecutionMissions->pop(temp);
 				CompletedMissions->push(temp);
+				temp->getAssignedRover()->IncreaseNumberOfMissions();
+				if (temp->getAssignedRover()->getNumberOfMissions() == temp->getAssignedRover()->getNumbOfMissBeforeCheck())
+				{
+					temp->getAssignedRover()->setFlagDay(currentDay);
+					switch (temp->getAssignedRover()->GetMode())
+					{
+					case Emergency:
+						EmergencyCheckup->push(temp->getAssignedRover());
+						temp->getAssignedRover()->SetState(CheckUp);
+						break;
+					case Mountanious:
+						MountaniousCheckup->push(temp->getAssignedRover());
+						temp->getAssignedRover()->SetState(CheckUp);
+						break;
+					case Polar:
+						PolarCheckup->push(temp->getAssignedRover());
+						temp->getAssignedRover()->SetState(CheckUp);
+						break;
+					}
+				}
+				else
+				{
+					switch (temp->getAssignedRover()->GetMode())
+					{
+					case Emergency:
+						EmergencyRovers->push(temp->getAssignedRover(), temp->getAssignedRover()->GetSpeed());
+						temp->getAssignedRover()->SetState(waiting);
+						break;
+					case Mountanious:
+						MountaniousRovers->push(temp->getAssignedRover(), temp->getAssignedRover()->GetSpeed());
+						temp->getAssignedRover()->SetState(waiting);
+						break;
+					case Polar:
+						PolarRovers->push(temp->getAssignedRover(), temp->getAssignedRover()->GetSpeed());
+						temp->getAssignedRover()->SetState(waiting);
+						break;
+					}
+				}
 			}
 			else
 				break;
