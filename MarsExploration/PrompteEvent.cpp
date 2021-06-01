@@ -8,5 +8,9 @@ PrompteEvent::PrompteEvent(int id, int day, MarsStation* station)
 }
 void PrompteEvent::Execute()
 {
+	//Mission* promptedMission;
+	//promptedMission=station->getMounMissionWithID(id);
 
+	//promptedMission->ChangeType();
+	//station->addMission(promptedMission);
 }

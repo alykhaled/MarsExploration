@@ -11,6 +11,10 @@ class MarsStation
 {
 private:
 	int currentDay;
+
+	int NumOfTotalRovers, NumOfMounR, NumOfPolR, NumOfEmrR;
+	int NumOfTotalMissions, NumOfMounM, NumOfPolM, NumOfEmrM;
+
 	Mode mode;
 	queue<Event*>* Events;
 	PriorityQueue<Mission*>* EmergencyMissions;
@@ -21,13 +25,14 @@ private:
 	PriorityQueue<Rover*>* MountaniousRovers;
 	PriorityQueue<Rover*>* PolarRovers;
 
-	PriorityQueue<Mission*>* CompletedMissions;
+	queue<Mission*>* CompletedMissions;
 	PriorityQueue<Mission*>* InExecutionMissions;
 
 	queue<Rover*>* MountaniousCheckup;
 	queue<Rover*>* PolarCheckup;
 	queue<Rover*>* EmergencyCheckup;
 	UI* ui;
+
 public:
 	MarsStation();
 	void readInput();					//Reads the input from the txt file "using function from UI class"
@@ -47,7 +52,7 @@ public:
 	queue<Rover*>* getMountaniousCheckup();
 	queue<Rover*>* getPolarCheckup();
 
-	PriorityQueue<Mission*>* getCompletedMissions();
+	queue<Mission*>* getCompletedMissions();
 	PriorityQueue<Mission*>* getInExecutionMissions();
 
 
@@ -57,4 +62,24 @@ public:
 	void setMode();		//Set the current mode "using function from UI class"
 	void CheckDoneRovers();  //check if the rover has finished the checkup
 	void AddRovers(int* ERoversSpeeds, int* MRoversSpeeds, int* PRoversSpeeds, int EmergencyRovers, int MountaniousRovers, int PolarRovers, int CM, int CP, int CE);
+
+
+	void CheckCompletedMissions();
+	void updateFile();    //to update the txt file using function from UI
+
+	//Mission* getMounMissionWithID(int key);     //search for a mountanious mission depending on the ID to prompte it
+	//void deleteMounMission(Mission* m);            // delete a mission from the linkedlist of moun mission to prompte it
+
+	//funtions serving the output file
+	int getNumOfTotalRovers();
+	int getNumOfMounR();
+	int getNumOfPolR();
+	int getNumOfEmrR();
+	void setNumOfMissions(int numMMission, int numPMission, int numEMission);   //to set number of missions read from the file
+
+	int getNumOfTotalMissions();
+	int getNumOfMounM();
+	int getNumOfPolM();
+	int getNumOfEmrM();
+
 };

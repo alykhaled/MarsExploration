@@ -45,5 +45,6 @@ public:
 	void printSilentOutput();		//Print Output if the mode is Silent Mode 
 	Mode chooseMode();				//Choose the mode from the user
 
+	void WriteInfile();   //open txt file and Write data
 };
 

@@ -65,20 +65,65 @@ void UI::printWaitingMissionsList()
 
 void UI::printInExecutionList()
 {
-	/*queue<Mission*>* EmergencyMissions = station->getEmergencyMissions();
-	LinkedList<Mission*>* MountaniousMissions = station->getMountaniousMissions();
-	queue<Mission*>* PolarMissions = station->getPolarMissions();
-	int waitedMissions = EmergencyMissions->getSize() + MountaniousMissions->getSize() + PolarMissions->getSize();
-	*/
-	cout << 0 << " In-Execution Missions/Rovers: ";
+	PriorityQueue<Mission*>* InExcutionMission = station->getInExecutionMissions();
+	int InExcutionNumber = station->getInExecutionMissions()->getSize();
+	queue<int> E, M, P;
+	Mission* temp;
+	MissionType Type;
+	int k;
+	for (int i = 0; i < InExcutionNumber; i++)
+	{
+		InExcutionMission->pop(temp);
+		Type = temp->getType();
+		switch (Type)
+		{
+		case Emergency:
+			E.push(temp->getID());
+			E.push(temp->getAssignedRover()->GetID());
+			break;
+		case Mountanious:
+			M.push(temp->getID());
+			M.push(temp->getAssignedRover()->GetID());
+			break;
+		case Polar:
+			P.push(temp->getID());
+			P.push(temp->getAssignedRover()->GetID());
+			break;
+		}
+	}
+	cout << InExcutionNumber << " In-Execution Missions/Rovers: ";
 	cout << "[";
-	//cout << getIDsMissions(EmergencyMissions);
+	while (!E.isEmpty())
+	{
+		E.pop(k);
+		cout << k << "/";
+		E.pop(k);
+		cout << k;
+		if (!E.isEmpty())
+			cout << ", ";
+	}
 	cout << "] ";
 	cout << "{";
-	//cout << getLinkedListIDs(MountaniousMissions);
+	while (!M.isEmpty())
+	{
+		M.pop(k);
+		cout << k << "/";
+		M.pop(k);
+		cout << k;
+		if (!M.isEmpty())
+			cout << ", ";
+	}
 	cout << "} ";
 	cout << "(";
-	//cout << getIDsMissions(PolarMissions);
+	while (!P.isEmpty())
+	{
+		P.pop(k);
+		cout << k << "/";
+		P.pop(k);
+		cout << k;
+		if (!P.isEmpty())
+			cout << ", ";
+	}
 	cout << ")";
 }
 
@@ -122,21 +167,58 @@ void UI::printInCheckupRoverList()
 
 void UI::printCompletedList()
 {
-	/*queue<Mission*>* EmergencyMissions = station->getEmergencyMissions();
-	LinkedList<Mission*>* MountaniousMissions = station->getMountaniousMissions();
-	queue<Mission*>* PolarMissions = station->getPolarMissions();
-	int waitedMissions = EmergencyMissions->getSize() + MountaniousMissions->getSize() + PolarMissions->getSize();*/
-
-	cout << 0 << " Completed Missions: ";
+	queue<Mission*>* CompletedMission = station->getCompletedMissions();
+	int completedNumber = station->getCompletedMissions()->getSize();
+	queue<int> E, M, P;
+	Mission* temp;
+	MissionType Type;
+	int k;
+	for (int i = 0; i < completedNumber; i++)
+	{
+		CompletedMission->pop(temp);
+		Type = temp->getType();
+		switch (Type)
+		{
+		case Emergency:
+			E.push(temp->getID());
+			break;
+		case Mountanious:
+			M.push(temp->getID());
+			break;
+		case Polar:
+			P.push(temp->getID());
+			break;
+		}
+	}
+	cout << completedNumber << " Completed Missions: ";
 	cout << "[";
-	//cout << getIDsMissions(EmergencyMissions);
+	while (!E.isEmpty())
+	{
+		E.pop(k);
+		cout << k;
+		if (!E.isEmpty())
+			cout << ", ";
+	}
 	cout << "] ";
 	cout << "{";
-	//cout << getLinkedListIDs(MountaniousMissions);
+	while (!M.isEmpty())
+	{
+		M.pop(k);
+		cout << k;
+		if (!M.isEmpty())
+			cout << ", ";
+	}
 	cout << "} ";
 	cout << "(";
-	//cout << getIDsMissions(PolarMissions);
+	while (!P.isEmpty())
+	{
+		P.pop(k);
+		cout << k;
+		if (!P.isEmpty())
+			cout << ", ";
+	}
 	cout << ")";
+
 }
 
 void UI::printInteractiveOutput()
@@ -301,6 +383,7 @@ void UI::getInput()
 {
 	fin.open("test.txt");
 	int mRovers, pRovers, eRovers;
+	int numMMission = 0, numPMission = 0, numEMission = 0;
 	fin >> mRovers >> pRovers >> eRovers;
 
 	/*int mSpeed, pSpeed, eSpeed;
@@ -347,6 +430,20 @@ void UI::getInput()
 			fin >> MissionType >> eventDay >> id >> targetLoc >> numOfDays >> sign;
 			formEvent = new FormulationEvent(id, MissionType, eventDay, targetLoc, numOfDays,sign, station);
 			station->addEvent(formEvent);
+
+			switch (MissionType)
+			{
+			case 'M':
+				numMMission++;
+				break;
+			case 'P':
+				numPMission++;
+				break;
+			case'E':
+				numEMission++;
+				break;
+			}
+
 			break;
 
 		case 'X':
@@ -363,6 +460,46 @@ void UI::getInput()
 
 		}
 	}
+	station->setNumOfMissions(numMMission, numPMission, numEMission);
 	fin.close();
 }
+void UI::WriteInfile()
+{
+	fout.open("output.txt");
+	fout << "CD	" << "ID	" << "FD	" << "WD	" << "ED	";
+
+	float Wait = 0, Exec = 0;
+	queue<Mission*>* CompletedMission = station->getCompletedMissions();
+	int completedNumber = station->getCompletedMissions()->getSize();
+	Mission* temp;
+
+	for (int i = 0; i < completedNumber; i++)
+	{
+		CompletedMission->pop(temp);
+		fout << temp->getCompletionDay() << "	";
+		fout << temp->getID() << "	";
+		fout << temp->getEventDay() << "	";
+		fout << temp->getWaitingDay() << "	";
+		fout << temp->getExcutionDay() << "	";
+		Wait = Wait + temp->getWaitingDay();
+		Exec = Exec + temp->getExcutionDay();
+	}
+	fout << "\n …………………………………………………………………………………………………………………………………………… \n";
+	fout << "\n …………………………………………………………………………………………………………………………………………… \n";
+
+	fout << "Missions:" << station->getNumOfTotalMissions() << "  ";
+	fout << "[M: " << station->getNumOfMounM() << ", P: " << station->getNumOfPolM() << ", E: " << station->getNumOfEmrM() << "]" << endl;
+
+	fout << "Rovers:" << station->getNumOfTotalRovers() << "  ";
+	fout << "[M: " << station->getNumOfMounR() << ", P: " << station->getNumOfPolR() << ", E: " << station->getNumOfEmrR() << "]" << endl;
+
+	fout << "Avg Wait= ";
+	fout << Wait / station->getNumOfTotalMissions() << ", ";
+	fout << "Avg Exec= ";
+	fout << Exec / station->getNumOfTotalMissions() << endl;
+
+
+	fout.close();
+}
+
 

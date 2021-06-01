@@ -13,6 +13,7 @@ int main()
 		/*Station.CheckDoneRovers();*/
 		//Station.AssignRover();
 		Station.printOutput();
+		//Station.updateFile();
 	}
 	return 0;
 }
