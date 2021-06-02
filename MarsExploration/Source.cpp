@@ -10,8 +10,9 @@ int main()
 	while (true)
 	{
 		Station.nextDay();
-		/*Station.CheckDoneRovers();*/
-		//Station.AssignRover();
+		Station.CheckDoneRovers();
+		Station.AssignRover();
+		Station.CheckCompletedMissions();
 		Station.printOutput();
 		//Station.updateFile();
 	}

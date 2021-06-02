@@ -65,7 +65,7 @@ void UI::printWaitingMissionsList()
 
 void UI::printInExecutionList()
 {
-	PriorityQueue<Mission*>* InExcutionMission = station->getInExecutionMissions();
+	PriorityQueue<Mission*>* InExcutionMission = new PriorityQueue<Mission*> (*station->getInExecutionMissions());
 	int InExcutionNumber = station->getInExecutionMissions()->getSize();
 	queue<int> E, M, P;
 	Mission* temp;
@@ -167,7 +167,7 @@ void UI::printInCheckupRoverList()
 
 void UI::printCompletedList()
 {
-	queue<Mission*>* CompletedMission = station->getCompletedMissions();
+	queue<Mission*>* CompletedMission = new queue<Mission*>(*station->getCompletedMissions());
 	int completedNumber = station->getCompletedMissions()->getSize();
 	queue<int> E, M, P;
 	Mission* temp;

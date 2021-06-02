@@ -225,10 +225,10 @@ void MarsStation::CheckDoneRovers()
 	Rover* R;
 	if (!EmergencyCheckup->isEmpty())
 	{
-		EmergencyCheckup->peek(R);
 		while (true)
 		{
-			if (R->getFlagDay() + R->GetCheckupDuration() == currentDay)
+			EmergencyCheckup->peek(R);
+			if (R->getFlagDay() + R->GetCheckupDuration() == currentDay && !EmergencyCheckup->isEmpty())
 			{
 				EmergencyCheckup->pop(R);
 				R->SetState(waiting);
@@ -248,7 +248,7 @@ void MarsStation::CheckDoneRovers()
 		MountaniousCheckup->peek(R);
 		while (true)
 		{
-			if (R->getFlagDay() + R->GetCheckupDuration() == currentDay)
+			if (R->getFlagDay() + R->GetCheckupDuration() == currentDay && !MountaniousCheckup->isEmpty())
 			{
 				MountaniousCheckup->pop(R);
 				R->SetState(waiting);
@@ -268,7 +268,7 @@ void MarsStation::CheckDoneRovers()
 		PolarCheckup->peek(R);
 		while (true)
 		{
-			if (R->getFlagDay() + R->GetCheckupDuration() == currentDay)
+			if (R->getFlagDay() + R->GetCheckupDuration() == currentDay && !PolarCheckup->isEmpty())
 			{
 				PolarCheckup->pop(R);
 				R->SetState(waiting);
@@ -396,7 +396,7 @@ void MarsStation::CheckCompletedMissions()
 		while (true)
 		{
 			InExecutionMissions->peek(temp);
-			if (temp->getCompletionDay() == currentDay)
+			if (temp->getCompletionDay() == currentDay && !InExecutionMissions->isEmpty())
 			{
 				InExecutionMissions->pop(temp);
 				CompletedMissions->push(temp);
