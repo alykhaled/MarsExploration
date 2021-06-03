@@ -14,7 +14,8 @@ private:
 
 	int NumOfTotalRovers, NumOfMounR, NumOfPolR, NumOfEmrR;
 	int NumOfTotalMissions, NumOfMounM, NumOfPolM, NumOfEmrM;
-
+	int AutoPromotion;
+	int numberofautoPromotedMissions;
 	Mode mode;
 	queue<Event*>* Events;
 	PriorityQueue<Mission*>* EmergencyMissions;
@@ -32,6 +33,7 @@ private:
 	queue<Rover*>* PolarCheckup;
 	queue<Rover*>* EmergencyCheckup;
 	UI* ui;
+
 
 public:
 	MarsStation();
@@ -81,5 +83,9 @@ public:
 	int getNumOfMounM();
 	int getNumOfPolM();
 	int getNumOfEmrM();
+
+	void AutoPromotionCheck();  //to check if a mountanious mission needs to be promoted
+	void setAutoPromotion(int a);
+	int getnumberofautoPromotedMissions();   //will serve the calculation of autopromotion missions in output file
 
 };

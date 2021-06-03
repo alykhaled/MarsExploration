@@ -26,6 +26,7 @@ MarsStation::MarsStation()
 	NumOfMounM = 0;
 	NumOfPolM = 0;
 	NumOfEmrM = 0;
+	numberofautoPromotedMissions = 0;
 
 }
 
@@ -266,7 +267,7 @@ void MarsStation::setMode()
 }
 
 void MarsStation::CheckDoneRovers()
-/*
+
 {
 	Rover* R;
 	if (!EmergencyCheckup->isEmpty())
@@ -330,8 +331,7 @@ void MarsStation::CheckDoneRovers()
 	}
 
 }
-*/
-
+/*
 {
 	
 	if (!PolarCheckup->isEmpty())
@@ -403,7 +403,7 @@ void MarsStation::CheckDoneRovers()
 	}
 }
 
-
+*/
 
 void MarsStation::AddRovers(int NumberOfMissions,int* ERoversSpeeds, int* MRoversSpeeds, int* PRoversSpeeds, int EmergencyRoversCount, int MountaniousRoversCount, int PolarRoversCount, int CM, int CP, int CE)
 {
@@ -504,13 +504,19 @@ Mission* MarsStation::getMounMissionWithID(int key)
 	while (missionTosearch)
 	{
 		if (missionTosearch->item->getID() == key)
+		{
+			Mission* M = missionTosearch->item;
+			deleteMounMission(missionTosearch->item);
+			return M;
 			break;
+		}
 		else
 			missionTosearch = missionTosearch->next;
 	}
-	Mission* M= missionTosearch->item;
-	deleteMounMission(missionTosearch->item);
-	return M;
+	return 0;
+	//Mission* M= missionTosearch->item;
+	//deleteMounMission(missionTosearch->item);
+	//return M;
 }
 
 void MarsStation::deleteMounMission(Mission* m)
@@ -564,5 +570,35 @@ int MarsStation::getNumOfPolM()
 int MarsStation::getNumOfEmrM()
 {
 	return NumOfEmrM;
+}
+
+void MarsStation::AutoPromotionCheck()
+{
+	Node<Mission*>* node = MountaniousMissions->getHead();
+	Mission* m;
+	while (node)
+	{
+		m = node->item;
+		if (currentDay - m->getEventDay() >= AutoPromotion)
+		{
+			node = node->next;
+			MountaniousMissions->deleteNode(m);
+			m->ChangeType();
+			addMission(m);
+			numberofautoPromotedMissions++;
+		}
+		else
+			node = node->next;
+	}
+}
+
+void MarsStation::setAutoPromotion(int a)
+{
+	AutoPromotion = a;
+}
+
+int MarsStation::getnumberofautoPromotedMissions()
+{
+	return numberofautoPromotedMissions;
 }
 

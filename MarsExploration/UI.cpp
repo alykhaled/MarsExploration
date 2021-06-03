@@ -401,7 +401,7 @@ void UI::getInput()
 
 	int autoP;
 	fin >> autoP;
-
+	station->setAutoPromotion(autoP);
 	int num;
 	fin >> num;
 	for (int i = 0; i < num; i++)
@@ -453,9 +453,9 @@ void UI::WriteInfile()
 {
 	fout.open("output.txt");
 	fout << "CD	" << "ID	" << "FD	" << "WD	" << "ED	";
-
+	fout << endl;
 	float Wait = 0, Exec = 0;
-	queue<Mission*>* CompletedMission = station->getCompletedMissions();
+	queue<Mission*>* CompletedMission = new queue<Mission*>(*station->getCompletedMissions());
 	int completedNumber = station->getCompletedMissions()->getSize();
 	Mission* temp;
 
@@ -467,6 +467,7 @@ void UI::WriteInfile()
 		fout << temp->getEventDay() << "	";
 		fout << temp->getWaitingDay() << "	";
 		fout << temp->getExcutionDay() << "	";
+		fout << endl;
 		Wait = Wait + temp->getWaitingDay();
 		Exec = Exec + temp->getExcutionDay();
 	}
@@ -483,7 +484,13 @@ void UI::WriteInfile()
 	fout << Wait / station->getNumOfTotalMissions() << ", ";
 	fout << "Avg Exec= ";
 	fout << Exec / station->getNumOfTotalMissions() << endl;
-
+	
+	fout << "Auto-promoted: ";
+	if (station->getnumberofautoPromotedMissions() == 0)
+		fout << "0";
+	else
+		fout << station->getNumOfMounM() / station->getnumberofautoPromotedMissions();
+	fout << "%" << endl;
 
 	fout.close();
 }
