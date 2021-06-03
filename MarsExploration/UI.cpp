@@ -3,6 +3,7 @@
 #include <limits> 
 #include <ios> 
 #include "MarsStation.h"
+#include "PrompteEvent.h"
 
 UI::UI(MarsStation* station)
 {
@@ -439,7 +440,7 @@ void UI::getInput()
 
 		case 'P':
 			fin >> eventDay >> id;
-			formEvent = new CancelEvent(id, eventDay,station);
+			formEvent = new PrompteEvent(id, eventDay,station);
 			station->addEvent(formEvent);
 			break;
 
