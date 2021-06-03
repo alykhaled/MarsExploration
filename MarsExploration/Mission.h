@@ -15,11 +15,11 @@ public:
 	MissionType getType();
 	void assignRover(Rover* rover, int currentDay);
 	Rover* getAssignedRover();
-	int getEventDay();
+	int getEventDay();   //the formulationday : where the mission should be assigned to rover
 	int getID();
 
-	int getCompletionDay();
-	int getExcutionDay();
+	int getCompletionDay();   //FD+ED+WD
+	int getExcutionDay();     
 	int getWaitingDay();
 
 

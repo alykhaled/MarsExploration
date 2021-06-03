@@ -1,5 +1,6 @@
 #include "MarsStation.h"
 #include "FormulationEvent.h"
+#include "PrompteEvent.h"
 
 MarsStation::MarsStation()
 {
@@ -67,7 +68,7 @@ void MarsStation::addMission(Mission* mission)
 		break;
 
 	case Mountanious:
-		MountaniousMissions->addNode(mission);
+		MountaniousMissions->InsertEnd(mission);
 		break;
 
 	case Polar:
@@ -147,29 +148,37 @@ int MarsStation::getCurrentDay()
 void MarsStation::AssignRover()
 {
 	Mission* current;
-	while (EmergencyMissions->pop(current))
+	while (EmergencyMissions->peek(current))
 	{
-		if (current->getEventDay() >= currentDay)
+		if (current->getEventDay() <= currentDay)
 		{
 			if (!EmergencyRovers->isEmpty())
 			{
 				Rover* currentRover;
 				EmergencyRovers->pop(currentRover);
-				current->assignRover(currentRover,currentDay);
+				current->assignRover(currentRover, currentDay);
+				EmergencyMissions->pop(current);
+				InExecutionMissions->push(current, -1 * current->getCompletionDay());
 			}
 			else if (!MountaniousRovers->isEmpty())
 			{
 				Rover* currentRover;
 				MountaniousRovers->pop(currentRover);
 				current->assignRover(currentRover, currentDay);
+				EmergencyMissions->pop(current);
+				InExecutionMissions->push(current, -1 * current->getCompletionDay());
 			}
 			else if (!PolarRovers->isEmpty())
 			{
 				Rover* currentRover;
 				PolarRovers->pop(currentRover);
 				current->assignRover(currentRover, currentDay);
+				EmergencyMissions->pop(current);
+				InExecutionMissions->push(current, -1 * current->getCompletionDay());
 			}
-			InExecutionMissions->push(current,0);
+			else
+				break;                // if all rovers lists are empty it will break the loop
+			
 		}
 		else
 		{
@@ -195,23 +204,60 @@ void MarsStation::AssignRover()
 		}
 	}
 	*/
-	while (PolarMissions->pop(current))
+
+	while (PolarMissions->peek(current))
 	{
-		if (current->getEventDay() >= currentDay)
+		if (current->getEventDay() <= currentDay)
 		{
 			if (!PolarRovers->isEmpty())
 			{
 				Rover* currentRover;
 				PolarRovers->pop(currentRover);
-				current->assignRover(currentRover,currentDay);
+				current->assignRover(currentRover, currentDay);
+				PolarMissions->pop(current);
+				InExecutionMissions->push(current, -1 * current->getCompletionDay());
 			}
-			InExecutionMissions->push(current,0);
+			else         //if polar Rovers list is empty we will break the loop
+				break;
 		}
 		else
 		{
 			break;
 		}
 	}
+	// Mountanious missions are ordered in the linked list depending on the formulation day
+	// so we will need to check on the head first, if head won't be assigned , it will break the while loop, also if the Mountanious
+	// rovers and the emergency rover are empty it will break
+	while (MountaniousMissions->getHead())
+	{
+		current = MountaniousMissions->getHead()->item;
+		if (current->getEventDay() <= currentDay)
+		{
+			if (!MountaniousRovers->isEmpty())
+			{
+				Rover* currentRover;
+				MountaniousRovers->pop(currentRover);
+				current->assignRover(currentRover, currentDay);
+				MountaniousMissions->deleteNode(current);
+				InExecutionMissions->push(current, -1 * current->getCompletionDay());
+			}
+			else if (!EmergencyRovers->isEmpty())
+			{
+				Rover* currentRover;
+				EmergencyRovers->pop(currentRover);
+				current->assignRover(currentRover, currentDay);
+				MountaniousMissions->deleteNode(current);
+				InExecutionMissions->push(current, -1 * current->getCompletionDay());
+			}
+			else
+				break;
+		}
+		else
+			break;
+
+	}
+
+
 }
 
 void MarsStation::setMode()
@@ -393,15 +439,15 @@ void MarsStation::CheckCompletedMissions()
 	Mission* temp;
 	if (!InExecutionMissions->isEmpty())
 	{
-		while (true)
+		while (true)                        // beacuse more than one mission can have the same completion day
 		{
 			InExecutionMissions->peek(temp);
-			if (temp->getCompletionDay() == currentDay && !InExecutionMissions->isEmpty())
+			if (temp->getCompletionDay() <= currentDay && !InExecutionMissions->isEmpty())      // to check if CD=currentDay---->then we will move the mission from excution list to completion list
 			{
 				InExecutionMissions->pop(temp);
 				CompletedMissions->push(temp);
-				temp->getAssignedRover()->IncreaseNumberOfMissions();
-				if (temp->getAssignedRover()->getNumberOfMissions() == temp->getAssignedRover()->getNumbOfMissBeforeCheck())
+				temp->getAssignedRover()->IncreaseNumberOfMissions();    // to increase the number of mission done by a rover
+				if (temp->getAssignedRover()->getNumberOfMissions() == temp->getAssignedRover()->getNumbOfMissBeforeCheck())  // check if the rover need to be added in the roverlist or checkup lisy
 				{
 					temp->getAssignedRover()->setFlagDay(currentDay);
 					switch (temp->getAssignedRover()->GetMode())
@@ -450,8 +496,9 @@ void MarsStation::updateFile()
 	ui->WriteInfile();
 }
 
-/*Mission* MarsStation::getMounMissionWithID(int key)
+Mission* MarsStation::getMounMissionWithID(int key)
 {
+
 	Node<Mission*>* missionTosearch = MountaniousMissions->getHead();
 
 	while (missionTosearch)
@@ -461,14 +508,15 @@ void MarsStation::updateFile()
 		else
 			missionTosearch = missionTosearch->next;
 	}
+	Mission* M= missionTosearch->item;
 	deleteMounMission(missionTosearch->item);
-	return missionTosearch->item;
+	return M;
 }
 
 void MarsStation::deleteMounMission(Mission* m)
 {
 	MountaniousMissions->deleteNode(m);
-}*/
+}
 
 int MarsStation::getNumOfTotalRovers()
 {

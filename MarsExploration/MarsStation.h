@@ -67,8 +67,8 @@ public:
 	void CheckCompletedMissions();
 	void updateFile();    //to update the txt file using function from UI
 
-	//Mission* getMounMissionWithID(int key);     //search for a mountanious mission depending on the ID to prompte it
-	//void deleteMounMission(Mission* m);            // delete a mission from the linkedlist of moun mission to prompte it
+	Mission* getMounMissionWithID(int key);     //search for a mountanious mission depending on the ID to prompte it
+	void deleteMounMission(Mission* m);            // delete a mission from the linkedlist of moun mission to prompte it
 
 	//funtions serving the output file
 	int getNumOfTotalRovers();

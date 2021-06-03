@@ -432,13 +432,13 @@ void UI::getInput()
 			break;
 
 		case 'X':
-			fin >> id >> eventDay;
+			fin >> eventDay >> id;
 			formEvent = new CancelEvent(id, eventDay, station);
 			station->addEvent(formEvent);
 			break;
 
 		case 'P':
-			fin >> id >> eventDay;
+			fin >> eventDay >> id;
 			formEvent = new CancelEvent(id, eventDay,station);
 			station->addEvent(formEvent);
 			break;

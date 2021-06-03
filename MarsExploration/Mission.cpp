@@ -19,7 +19,7 @@ MissionType Mission::getType()
 
 void Mission::assignRover(Rover* rover, int currentDay)
 {
-	this->AssignedRover = rover;
+	this->AssignedRover = rover;                                  // after assigning the rover we will calculate excution day and waiting day
 	float Hours = 2 * ((float)TargetLocation / (AssignedRover->GetSpeed()));  //number of hours taken going to came
 	float Tripday = Hours / 25.0;
 	Tripday = ceil(Tripday);
@@ -79,4 +79,5 @@ bool Mission::operator==(const Mission*& rhs)
 		return false;
 	}
 }
+
 

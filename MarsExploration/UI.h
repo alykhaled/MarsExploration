@@ -8,8 +8,8 @@
 #include "Event.h"
 #include "FormulationEvent.h"
 #include "CancelEvent.h"
-#include <string>
 #include "PrompteEvent.h"
+#include <string>
 #include <windows.h>
 #include "LinkedList.h"
 
