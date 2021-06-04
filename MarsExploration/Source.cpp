@@ -20,6 +20,9 @@ int main()
 		}
 		Station.updateFile();
 	}
-	cout << "done";
+	if (Station.getMode() == Silent)
+	{
+		Station.printOutput();
+	}
 	return 0;
 }

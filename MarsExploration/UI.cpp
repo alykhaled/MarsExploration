@@ -239,7 +239,8 @@ void UI::printInteractiveOutput()
 
 void UI::printSilentOutput()
 {
-
+	system("CLS");
+	cout << "Silent Mode\nSimulation Starts...\nSimulation ends, Output file created";
 }
 
 Mode UI::chooseMode()
