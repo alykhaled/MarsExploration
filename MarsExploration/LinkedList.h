@@ -88,6 +88,10 @@ public:
 	{
 		return head;
 	}
+	void setHead(Node<T>* head)
+	{
+		this->head = head;
+	}
 	/*
 	//searches for a given value in the list, and return the Item if found
 	T Find(int Key)
