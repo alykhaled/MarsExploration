@@ -10,11 +10,12 @@ int main()
 	while (true)
 	{
 		Station.nextDay();
-		Station.CheckDoneRovers();
-		Station.AssignRover();
-		Station.CheckCompletedMissions();
+		Station.CheckDoneRovers();  //check if rovers are done with their checkup days
+		Station.AutoPromotionCheck();      //to check the auto promotion
+		Station.AssignRover();      
+		Station.CheckCompletedMissions(); 
 		Station.printOutput();
-		//Station.updateFile();
+		Station.updateFile();
 	}
 	return 0;
 }
