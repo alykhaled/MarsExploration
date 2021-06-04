@@ -1,5 +1,7 @@
 #include "CancelEvent.h"
-
+#include "LinkedList.h"
+#include "Mission.h"
+#include "MarsStation.h"
 CancelEvent::CancelEvent(int id, int day, MarsStation* station)
 {
 	this->id = id;
@@ -9,25 +11,31 @@ CancelEvent::CancelEvent(int id, int day, MarsStation* station)
 
 void CancelEvent::Execute()
 {
-	//LinkedList<Mission*>* list  = station->getMountaniousMissions();
-	//Node<Mission*>* head = list->getHead();
-
- //   if (head->item->getID() == id)
- //   {
- //       if (head->next == NULL)
- //       {
- //           return;
- //       }
- //       head->item = head->next->item;
- //       head->next = head->next->next;
- //       return;
- //   }
- //  
- //   Node<Mission*>* prev = head;
- //   while (prev->next != NULL && prev->next->item->getID() != id)
- //   {
- //       prev = prev->next;
- //   }
- //   prev->next = prev->next->next;
+	LinkedList<Mission*>* list = station->getMountaniousMissions();
+	if (!list->getHead())
+	{
+		return;
+	}
+	Node<Mission*>* prev = list->getHead();
+	Node<Mission*>* current = prev->next;
+	if (prev->item->getID() == id)
+	{
+		list->setHead(list->getHead()->next);
+		return;
+	}
+	
+	while (current)
+	{
+		if (current->item->getID() == id)
+		{
+			prev->next = current->next;
+			return;
+		}
+		else
+		{
+			prev = prev->next;
+			current = current->next;
+		}
+	}
 }
 
