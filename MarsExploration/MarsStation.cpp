@@ -507,6 +507,8 @@ Mission* MarsStation::getMounMissionWithID(int key)
 		{
 			Mission* M = missionTosearch->item;
 			deleteMounMission(missionTosearch->item);
+			NumOfMounM--;                //to decrease number of mountanious missions
+			NumOfEmrM++;                 // to increase number of emergency missions
 			return M;
 			break;
 		}
@@ -585,6 +587,8 @@ void MarsStation::AutoPromotionCheck()
 			MountaniousMissions->deleteNode(m);
 			m->ChangeType();
 			addMission(m);
+			NumOfMounM--;                //to decrease number of mountanious missions
+			NumOfEmrM++;                 // to increase number of emergency missions
 			numberofautoPromotedMissions++;
 		}
 		else
