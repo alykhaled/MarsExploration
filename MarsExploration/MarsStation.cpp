@@ -18,14 +18,14 @@ MarsStation::MarsStation()
 	EmergencyCheckup	= new queue<Rover*>();
 	MountaniousCheckup	= new queue<Rover*>();
 	PolarCheckup		= new queue<Rover*>();
-	NumOfTotalRovers = 0;
-	NumOfMounR = 0;
-	NumOfPolR = 0;
-	NumOfEmrR = 0;
-	NumOfTotalMissions = 0;
-	NumOfMounM = 0;
-	NumOfPolM = 0;
-	NumOfEmrM = 0;
+	NumOfTotalRovers	= 0;
+	NumOfMounR			= 0;
+	NumOfPolR			= 0;
+	NumOfEmrR			= 0;
+	NumOfTotalMissions	= 0;
+	NumOfMounM			= 0;
+	NumOfPolM			= 0;
+	NumOfEmrM			= 0;
 	numberofautoPromotedMissions = 0;
 
 }
@@ -51,7 +51,10 @@ void MarsStation::nextDay()
 			break;
 		}
 	}
-	ui->nextDay();
+	if (mode != Silent)
+	{
+		ui->nextDay();
+	}
 }
 
 void MarsStation::addEvent(Event* event)
@@ -79,6 +82,11 @@ void MarsStation::addMission(Mission* mission)
 	default:
 		break;
 	}
+}
+
+bool MarsStation::done()
+{
+	return Events->isEmpty() && EmergencyMissions->isEmpty() && !MountaniousMissions->getHead() && PolarMissions->isEmpty() && InExecutionMissions->isEmpty();
 }
 
 PriorityQueue<Mission*>* MarsStation::getEmergencyMissions()
@@ -264,6 +272,11 @@ void MarsStation::AssignRover()
 void MarsStation::setMode()
 {
 	mode = ui->chooseMode();
+}
+
+Mode MarsStation::getMode()
+{
+	return mode;
 }
 
 void MarsStation::CheckDoneRovers()
