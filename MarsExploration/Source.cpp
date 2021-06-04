@@ -7,15 +7,19 @@ int main()
 	MarsStation Station;
 	Station.readInput();
 	Station.setMode();
-	while (true)
+	while (!Station.done())
 	{
 		Station.nextDay();
 		Station.CheckDoneRovers();  //check if rovers are done with their checkup days
 		Station.AutoPromotionCheck();      //to check the auto promotion
 		Station.AssignRover();      
 		Station.CheckCompletedMissions(); 
-		Station.printOutput();
+		if (Station.getMode() != Silent)
+		{
+			Station.printOutput();
+		}
 		Station.updateFile();
 	}
+	cout << "done";
 	return 0;
 }

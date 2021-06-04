@@ -41,6 +41,7 @@ public:
 	void nextDay();						//Increase the current day by one execute every event with the same day
 	void addEvent(Event* event);		//Add new event 
 	void addMission(Mission* mission);	//Add new mission
+	bool done();
 
 	PriorityQueue<Mission*>* getEmergencyMissions();
 	LinkedList<Mission*>* getMountaniousMissions();
@@ -62,6 +63,7 @@ public:
 	int getCurrentDay();
 	void AssignRover();
 	void setMode();		//Set the current mode "using function from UI class"
+	Mode getMode();
 	void CheckDoneRovers();  //check if the rover has finished the checkup
 	void AddRovers(int NumberOfMissions,int* ERoversSpeeds, int* MRoversSpeeds, int* PRoversSpeeds, int EmergencyRovers, int MountaniousRovers, int PolarRovers, int CM, int CP, int CE);
 
