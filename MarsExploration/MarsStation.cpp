@@ -1,6 +1,7 @@
 #include "MarsStation.h"
 #include "FormulationEvent.h"
 #include "PrompteEvent.h"
+#include <random>
 
 MarsStation::MarsStation()
 {
@@ -457,11 +458,13 @@ void MarsStation::CheckCompletedMissions()
 			InExecutionMissions->peek(temp);
 			if (temp->getCompletionDay() <= currentDay && !InExecutionMissions->isEmpty())      // to check if CD=currentDay---->then we will move the mission from excution list to completion list
 			{
+				random_device rd;
+				default_random_engine eng(rd());
+				uniform_int_distribution<int> distr(1, 10);
 				InExecutionMissions->pop(temp);
-				CompletedMissions->push(temp);
-				temp->getAssignedRover()->IncreaseNumberOfMissions();    // to increase the number of mission done by a rover
-				if (temp->getAssignedRover()->getNumberOfMissions() == temp->getAssignedRover()->getNumbOfMissBeforeCheck())  // check if the rover need to be added in the roverlist or checkup lisy
+				if (distr(eng) == 1)
 				{
+					addMission(temp);
 					temp->getAssignedRover()->setFlagDay(currentDay);
 					switch (temp->getAssignedRover()->GetMode())
 					{
@@ -481,22 +484,47 @@ void MarsStation::CheckCompletedMissions()
 				}
 				else
 				{
-					switch (temp->getAssignedRover()->GetMode())
+					CompletedMissions->push(temp);
+					temp->getAssignedRover()->IncreaseNumberOfMissions();    // to increase the number of mission done by a rover
+					if (temp->getAssignedRover()->getNumberOfMissions() == temp->getAssignedRover()->getNumbOfMissBeforeCheck())  // check if the rover need to be added in the roverlist or checkup lisy
 					{
-					case Emergency:
-						EmergencyRovers->push(temp->getAssignedRover(), temp->getAssignedRover()->GetSpeed());
-						temp->getAssignedRover()->SetState(waiting);
-						break;
-					case Mountanious:
-						MountaniousRovers->push(temp->getAssignedRover(), temp->getAssignedRover()->GetSpeed());
-						temp->getAssignedRover()->SetState(waiting);
-						break;
-					case Polar:
-						PolarRovers->push(temp->getAssignedRover(), temp->getAssignedRover()->GetSpeed());
-						temp->getAssignedRover()->SetState(waiting);
-						break;
+						temp->getAssignedRover()->setFlagDay(currentDay);
+						switch (temp->getAssignedRover()->GetMode())
+						{
+						case Emergency:
+							EmergencyCheckup->push(temp->getAssignedRover());
+							temp->getAssignedRover()->SetState(CheckUp);
+							break;
+						case Mountanious:
+							MountaniousCheckup->push(temp->getAssignedRover());
+							temp->getAssignedRover()->SetState(CheckUp);
+							break;
+						case Polar:
+							PolarCheckup->push(temp->getAssignedRover());
+							temp->getAssignedRover()->SetState(CheckUp);
+							break;
+						}
+					}
+					else
+					{
+						switch (temp->getAssignedRover()->GetMode())
+						{
+						case Emergency:
+							EmergencyRovers->push(temp->getAssignedRover(), temp->getAssignedRover()->GetSpeed());
+							temp->getAssignedRover()->SetState(waiting);
+							break;
+						case Mountanious:
+							MountaniousRovers->push(temp->getAssignedRover(), temp->getAssignedRover()->GetSpeed());
+							temp->getAssignedRover()->SetState(waiting);
+							break;
+						case Polar:
+							PolarRovers->push(temp->getAssignedRover(), temp->getAssignedRover()->GetSpeed());
+							temp->getAssignedRover()->SetState(waiting);
+							break;
+						}
 					}
 				}
+				
 			}
 			else
 				break;
