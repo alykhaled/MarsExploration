@@ -1,0 +1,23 @@
+2	1	2
+30	45	
+50
+40	20
+3	6	8	7
+3
+9
+F	E	2	1	1000	6	10
+F	M	3	2	1240	7	3
+F	M	4	3	1500	8	4
+F	M	6	4	800	8	6                    
+F	P	7	5	600	6	8
+F	E	9	6	1200	7	13
+F	M	10	7	1300	6	7
+X	12	7
+F	P	14	8	1400	6	9
+
+
+
+//In addition to basics operations,
+//we focus here on testing  autopromote and cancel event
+//mission with ID4 is auto promoted after 3 days(6-->9)
+//Cancel event for mission number 7

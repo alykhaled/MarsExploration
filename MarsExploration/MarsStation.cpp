@@ -15,7 +15,7 @@ MarsStation::MarsStation()
 	MountaniousRovers	= new PriorityQueue<Rover*>();
 	PolarRovers			= new PriorityQueue<Rover*>();
 	InExecutionMissions = new PriorityQueue<Mission*>();
-	CompletedMissions	= new queue<Mission*>();
+	CompletedMissions	= new PriorityQueue<Mission*>();
 	EmergencyCheckup	= new queue<Rover*>();
 	MountaniousCheckup	= new queue<Rover*>();
 	PolarCheckup		= new queue<Rover*>();
@@ -85,9 +85,9 @@ void MarsStation::addMission(Mission* mission)
 	}
 }
 
-bool MarsStation::done()
+bool MarsStation::done()  //check all lists, included checkup list
 {
-	return Events->isEmpty() && EmergencyMissions->isEmpty() && !MountaniousMissions->getHead() && PolarMissions->isEmpty() && InExecutionMissions->isEmpty();
+	return Events->isEmpty() && EmergencyMissions->isEmpty() && !MountaniousMissions->getHead() && PolarMissions->isEmpty() && InExecutionMissions->isEmpty() && MountaniousCheckup->isEmpty() && PolarCheckup->isEmpty() && EmergencyCheckup->isEmpty();
 }
 
 PriorityQueue<Mission*>* MarsStation::getEmergencyMissions()
@@ -135,7 +135,7 @@ queue<Rover*>* MarsStation::getPolarCheckup()
 	return PolarCheckup;
 }
 
-queue<Mission*>* MarsStation::getCompletedMissions()
+PriorityQueue<Mission*>* MarsStation::getCompletedMissions()
 {
 	return CompletedMissions;
 }
@@ -484,7 +484,7 @@ void MarsStation::CheckCompletedMissions()
 				}
 				else
 				{
-					CompletedMissions->push(temp);
+					CompletedMissions->push(temp,-1*temp->getCompletionDay());
 					temp->getAssignedRover()->IncreaseNumberOfMissions();    // to increase the number of mission done by a rover
 					if (temp->getAssignedRover()->getNumberOfMissions() == temp->getAssignedRover()->getNumbOfMissBeforeCheck())  // check if the rover need to be added in the roverlist or checkup lisy
 					{
@@ -645,5 +645,11 @@ void MarsStation::setAutoPromotion(int a)
 int MarsStation::getnumberofautoPromotedMissions()
 {
 	return numberofautoPromotedMissions;
+}
+
+void MarsStation::decreaseNumberofMiss()
+{
+	NumOfMounM--;
+	NumOfTotalMissions--;
 }
 

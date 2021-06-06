@@ -45,6 +45,8 @@ public:
 		Node<T>* nodeToBeDeleted = nullptr;
 		Node<T>* beforeTheDeleted = head;
 		Node<T>* temp = head;
+		if (!head)
+			return false;
 		if (head->item == value)
 		{
 			nodeToBeDeleted = head;
@@ -91,6 +93,10 @@ public:
 	void setHead(Node<T>* head)
 	{
 		this->head = head;
+	}
+	void decreaseSize()
+	{
+		size--;
 	}
 	/*
 	//searches for a given value in the list, and return the Item if found

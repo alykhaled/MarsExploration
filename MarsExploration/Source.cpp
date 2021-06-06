@@ -12,6 +12,7 @@ int main()
 		Station.nextDay();
 		Station.CheckDoneRovers();  //check if rovers are done with their checkup days
 		Station.AutoPromotionCheck();      //to check the auto promotion
+
 		Station.AssignRover();      
 		Station.CheckCompletedMissions(); 
 		if (Station.getMode() != Silent)
@@ -24,5 +25,6 @@ int main()
 	{
 		Station.printOutput();
 	}
+
 	return 0;
 }

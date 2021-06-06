@@ -10,6 +10,8 @@ CancelEvent::CancelEvent(int id, int day, MarsStation* station)
 
 void CancelEvent::Execute()
 {
+
+
 	LinkedList<Mission*>* list = station->getMountaniousMissions();
 	if (!list->getHead())
 	{
@@ -20,6 +22,8 @@ void CancelEvent::Execute()
 	if (prev->item->getID() == id)
 	{
 		list->setHead(list->getHead()->next);
+		list->decreaseSize();
+		station->decreaseNumberofMiss();
 		return;
 	}
 
@@ -28,6 +32,8 @@ void CancelEvent::Execute()
 		if (current->item->getID() == id)
 		{
 			prev->next = current->next;
+			list->decreaseSize();
+			station->decreaseNumberofMiss();
 			return;
 		}
 		else

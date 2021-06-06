@@ -12,6 +12,8 @@ UI::UI(MarsStation* station)
 
 void UI::nextDay()
 {
+	if (station->getCurrentDay() == 1 && mode == Interactive)
+		return;
 	switch (mode)
 	{
 	case Interactive:
@@ -168,7 +170,7 @@ void UI::printInCheckupRoverList()
 
 void UI::printCompletedList()
 {
-	queue<Mission*>* CompletedMission = new queue<Mission*>(*station->getCompletedMissions());
+	PriorityQueue<Mission*>* CompletedMission = new PriorityQueue<Mission*>(*station->getCompletedMissions());
 	int completedNumber = station->getCompletedMissions()->getSize();
 	queue<int> E, M, P;
 	Mission* temp;
@@ -368,7 +370,11 @@ string UI::getLinkedListIDs(LinkedList<Mission*>* list)
 
 void UI::getInput()
 {
-	fin.open("test.txt");
+	fin.open("test2.txt");
+
+
+
+
 	int mRovers, pRovers, eRovers;
 	int numMMission = 0, numPMission = 0, numEMission = 0;
 	fin >> mRovers >> pRovers >> eRovers;
@@ -453,11 +459,11 @@ void UI::getInput()
 
 void UI::WriteInfile()
 {
-	fout.open("output.txt");
+	fout.open("output2.txt");
 	fout << "CD	" << "ID	" << "FD	" << "WD	" << "ED	";
 	fout << endl;
 	float Wait = 0, Exec = 0;
-	queue<Mission*>* CompletedMission = new queue<Mission*>(*station->getCompletedMissions());
+	PriorityQueue<Mission*>* CompletedMission = new PriorityQueue<Mission*>(*station->getCompletedMissions());
 	int completedNumber = station->getCompletedMissions()->getSize();
 	Mission* temp;
 
@@ -491,9 +497,8 @@ void UI::WriteInfile()
 	if (station->getnumberofautoPromotedMissions() == 0)
 		fout << "0";
 	else
-		fout << station->getNumOfMounM() / station->getnumberofautoPromotedMissions();
+		fout << (float)station->getnumberofautoPromotedMissions()/(station->getNumOfMounM() + station->getnumberofautoPromotedMissions()) *100;
 	fout << "%" << endl;
 
 	fout.close();
 }
-

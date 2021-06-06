@@ -26,7 +26,7 @@ private:
 	PriorityQueue<Rover*>* MountaniousRovers;
 	PriorityQueue<Rover*>* PolarRovers;
 
-	queue<Mission*>* CompletedMissions;
+	PriorityQueue<Mission*>* CompletedMissions;
 	PriorityQueue<Mission*>* InExecutionMissions;
 
 	queue<Rover*>* MountaniousCheckup;
@@ -54,7 +54,7 @@ public:
 	queue<Rover*>* getMountaniousCheckup();
 	queue<Rover*>* getPolarCheckup();
 
-	queue<Mission*>* getCompletedMissions();
+	PriorityQueue<Mission*>* getCompletedMissions();
 	PriorityQueue<Mission*>* getInExecutionMissions();
 
 
@@ -88,5 +88,7 @@ public:
 	void AutoPromotionCheck();  //to check if a mountanious mission needs to be promoted
 	void setAutoPromotion(int a);
 	int getnumberofautoPromotedMissions();   //will serve the calculation of autopromotion missions in output file
+
+	void decreaseNumberofMiss();   //used when we cancel an event ww need to deacrease number of montaniousMission
 
 };

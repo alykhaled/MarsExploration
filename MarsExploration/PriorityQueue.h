@@ -76,7 +76,7 @@ bool PriorityQueue<T>::push(const T& newEntry, int value)
 			while (current->next)
 			{
 
-				if (current->key <= value && current->next->key < value)
+				if (current->key >= value && current->next->key < value)
 				{
 					newNodeLPtr->next = current->next;
 					current->next = newNodeLPtr;
