@@ -34,7 +34,6 @@ private:
 	queue<Rover*>* EmergencyCheckup;
 	UI* ui;
 
-
 public:
 	MarsStation();
 	void readInput();					//Reads the input from the txt file "using function from UI class"

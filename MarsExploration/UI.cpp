@@ -450,6 +450,7 @@ void UI::getInput()
 	station->setNumOfMissions(numMMission, numPMission, numEMission);
 	fin.close();
 }
+
 void UI::WriteInfile()
 {
 	fout.open("output.txt");
@@ -495,5 +496,4 @@ void UI::WriteInfile()
 
 	fout.close();
 }
-
 
