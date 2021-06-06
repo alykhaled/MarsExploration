@@ -56,11 +56,17 @@ int Mission::getWaitingDay()
 {
 	return waitingDay;
 }
-
-int Mission::priorityCalculation()
+int Mission::getPriority()
 {
+	return Priority;
+}
+
+void Mission::priorityCalculation()
+{
+	Priority = Signification * 45 + TargetLocation * 0.5 - Duration * 29 - EventDay * 19;
+	/*Priority = Signification * (TargetLocation / Duration) -  EventDay*/;
 	//write the priorityequation_here
-	return 0;
+	return;
 }
 
 void Mission::ChangeType()

@@ -10,6 +10,7 @@ private:
 	Rover* AssignedRover;
 	int ExcutionDay;
 	int waitingDay;
+	int Priority;
 public:
 	Mission(int ID, int Day,int TargetLocation,int Duration,int Signification, MissionType Type,MissionStatus Status);
 	MissionType getType();
@@ -21,9 +22,9 @@ public:
 	int getCompletionDay();   //FD+ED+WD
 	int getExcutionDay();     
 	int getWaitingDay();
+	int getPriority();
 
-
-	int priorityCalculation();         //to calculate the priority of a mission (it will be used mainly for emergency ones)
+	void priorityCalculation();         //to calculate the priority of a mission (it will be used mainly for emergency ones)
 	void ChangeType();  // to change the type of the mountanious mission in prompteEvent
 	bool operator == (const Mission*& rhs);
 };

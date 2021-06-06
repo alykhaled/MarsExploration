@@ -69,7 +69,7 @@ void MarsStation::addMission(Mission* mission)
 	{
 	case Emergency:
 
-		EmergencyMissions->push(mission,mission->priorityCalculation());
+		EmergencyMissions->push(mission,mission->getPriority());
 		break;
 
 	case Mountanious:
