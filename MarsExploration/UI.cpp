@@ -370,11 +370,22 @@ string UI::getLinkedListIDs(LinkedList<Mission*>* list)
 
 void UI::getInput()
 {
-	fin.open("test2.txt");
-
-
-
-
+	cout << "Please enter the file you want to load: ";
+	cin >> UploadFile;
+	UploadFile = UploadFile + ".txt";
+	cout << endl;
+	fin.open(UploadFile);
+	while (!fin.is_open()) //check if the file was found and opened successfully and if not ask the user to re-enter
+	{
+		cout << "File is not found, Please re-enter the file you want to load: ";
+		cin >> UploadFile;
+		UploadFile = UploadFile + ".txt";
+		fin.open(UploadFile);
+	}
+	cout << "Please enter where do you want to save your statistics ";
+	cin >> outputFile;
+	outputFile=outputFile + ".txt";
+	
 	int mRovers, pRovers, eRovers;
 	int numMMission = 0, numPMission = 0, numEMission = 0;
 	fin >> mRovers >> pRovers >> eRovers;
@@ -459,7 +470,7 @@ void UI::getInput()
 
 void UI::WriteInfile()
 {
-	fout.open("output2.txt");
+	fout.open(outputFile);
 	fout << "CD	" << "ID	" << "FD	" << "WD	" << "ED	";
 	fout << endl;
 	float Wait = 0, Exec = 0;

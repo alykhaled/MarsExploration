@@ -1,0 +1,20 @@
+4	1	1
+20	30	50	90
+50
+60
+3	5	7	7
+4
+10
+F	E	1	1	1000	4	10 
+F	M	3	2	2500	4	4
+F	M	4	3	2500	4	7
+F	E	5	4	5000	6	8
+X	6	3
+F	P	7	5	9000	7	6
+X	8	2
+F	M	9	6	5600	5	9
+P	10	6
+F	P	11	7	1900	3	3
+
+
+//if mission is canceled or promoted after assigning it, there is no change

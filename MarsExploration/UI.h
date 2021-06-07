@@ -23,6 +23,7 @@ private:
 	ifstream fin;
 	Mode mode;
 	MarsStation* station;
+	string UploadFile, outputFile;
 public:
 	UI(MarsStation* station);
 	void nextDay();		//Increase current day depending on Mode
