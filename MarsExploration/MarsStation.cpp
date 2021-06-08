@@ -33,11 +33,13 @@ MarsStation::MarsStation()
 
 void MarsStation::readInput()
 {
+	//Reads the input from the txt file "using function from UI class"
 	ui->getInput();
 }
 
 void MarsStation::nextDay()
 {
+	//Increase the current day by one execute every event with the same day
 	currentDay++;
 	Event* currentEvent;
 	while (Events->peek(currentEvent))
@@ -60,11 +62,13 @@ void MarsStation::nextDay()
 
 void MarsStation::addEvent(Event* event)
 {
+	//Add new event 
 	Events->push(event);
 }
 
 void MarsStation::addMission(Mission* mission)
 {
+	//Add new mission according to its Type
 	switch (mission->getType())
 	{
 	case Emergency:
@@ -147,6 +151,7 @@ PriorityQueue<Mission*>* MarsStation::getInExecutionMissions()
 
 void MarsStation::printOutput()
 {
+	//Print the output to the screen "using function from UI class"
 	ui->printOutput();
 }
 
@@ -157,6 +162,7 @@ int MarsStation::getCurrentDay()
 
 void MarsStation::AssignRover()
 {
+	//Assign Rover to mission
 	Mission* current;
 	while (EmergencyMissions->peek(current))
 	{
@@ -272,6 +278,7 @@ void MarsStation::AssignRover()
 
 void MarsStation::setMode()
 {
+	//Set the current mode "using function from UI class"
 	mode = ui->chooseMode();
 }
 
@@ -281,8 +288,8 @@ Mode MarsStation::getMode()
 }
 
 void MarsStation::CheckDoneRovers()
-
 {
+	//check if the rover has finished the checkup
 	Rover* R;
 	if (!EmergencyCheckup->isEmpty())
 	{
@@ -450,6 +457,7 @@ void MarsStation::AddRovers(int NumberOfMissions,int* ERoversSpeeds, int* MRover
 
 void MarsStation::CheckCompletedMissions()
 {
+	//Check the missions in the In-Execution list to see how many missions completed
 	Mission* temp;
 	if (!InExecutionMissions->isEmpty())
 	{
@@ -534,12 +542,13 @@ void MarsStation::CheckCompletedMissions()
 
 void MarsStation::updateFile()
 {
+	//to update the txt file using function from UI
 	ui->WriteInfile();
 }
 
 Mission* MarsStation::getMounMissionWithID(int key)
 {
-
+	//search for a mountanious mission depending on the ID to prompte it
 	Node<Mission*>* missionTosearch = MountaniousMissions->getHead();
 
 	while (missionTosearch)
@@ -564,6 +573,7 @@ Mission* MarsStation::getMounMissionWithID(int key)
 
 void MarsStation::deleteMounMission(Mission* m)
 {
+	// delete a mission from the linkedlist of moun mission to prompte it
 	MountaniousMissions->deleteNode(m);
 }
 

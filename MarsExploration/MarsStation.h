@@ -40,7 +40,7 @@ public:
 	void nextDay();						//Increase the current day by one execute every event with the same day
 	void addEvent(Event* event);		//Add new event 
 	void addMission(Mission* mission);	//Add new mission
-	bool done();
+	bool done();						//check all lists, included checkup list
 
 	PriorityQueue<Mission*>* getEmergencyMissions();
 	LinkedList<Mission*>* getMountaniousMissions();
@@ -58,37 +58,38 @@ public:
 	PriorityQueue<Mission*>* getInExecutionMissions();
 
 
-	void printOutput(); //Print the output to the screen "using function from UI class"
-	int getCurrentDay();
-	void AssignRover();
-	void setMode();		//Set the current mode "using function from UI class"
-	Mode getMode();
-	void CheckDoneRovers();  //check if the rover has finished the checkup
-	void AddRovers(int NumberOfMissions,int* ERoversSpeeds, int* MRoversSpeeds, int* PRoversSpeeds, int EmergencyRovers, int MountaniousRovers, int PolarRovers, int CM, int CP, int CE);
+	void printOutput();		//Print the output to the screen "using function from UI class"
+	int getCurrentDay();	//Return the current Day
+	void AssignRover();		//Assign Rover to mission
+	void setMode();			//Set the current mode "using function from UI class"
+	Mode getMode();			//Return the current Mode
+	void CheckDoneRovers(); //check if the rover has finished the checkup
+	void AddRovers(int NumberOfMissions,int* ERoversSpeeds, int* MRoversSpeeds, 
+				   int* PRoversSpeeds, int EmergencyRovers, int MountaniousRovers,
+				   int PolarRovers, int CM, int CP, int CE); //Add the Rovers to the Avaliable Rovers list 
 
-
-	void CheckCompletedMissions();
-	void updateFile();    //to update the txt file using function from UI
+	void CheckCompletedMissions();	//Check the missions in the In-Execution list to see how many missions completed
+	void updateFile();				//to update the txt file using function from UI
 
 	Mission* getMounMissionWithID(int key);     //search for a mountanious mission depending on the ID to prompte it
-	void deleteMounMission(Mission* m);            // delete a mission from the linkedlist of moun mission to prompte it
+	void deleteMounMission(Mission* m);         // delete a mission from the linkedlist of moun mission to prompte it
 
-	//funtions serving the output file
+	//funtions serving the output file 'Rovers'
 	int getNumOfTotalRovers();
 	int getNumOfMounR();
 	int getNumOfPolR();
 	int getNumOfEmrR();
-	void setNumOfMissions(int numMMission, int numPMission, int numEMission);   //to set number of missions read from the file
 
+	//funtions serving the output file 'Missions'
 	int getNumOfTotalMissions();
 	int getNumOfMounM();
 	int getNumOfPolM();
 	int getNumOfEmrM();
+	void setNumOfMissions(int numMMission, int numPMission, int numEMission);   //to set number of missions read from the file
 
-	void AutoPromotionCheck();  //to check if a mountanious mission needs to be promoted
-	void setAutoPromotion(int a);
-	int getnumberofautoPromotedMissions();   //will serve the calculation of autopromotion missions in output file
-
-	void decreaseNumberofMiss();   //used when we cancel an event ww need to deacrease number of montaniousMission
+	void AutoPromotionCheck();				//to check if a mountanious mission needs to be promoted
+	void setAutoPromotion(int a);			//Set the autoPromotion Value
+	int getnumberofautoPromotedMissions();  //will serve the calculation of autopromotion missions in output file
+	void decreaseNumberofMiss();			//used when we cancel an event ww need to deacrease number of montaniousMission
 
 };

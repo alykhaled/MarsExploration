@@ -12,6 +12,7 @@ UI::UI(MarsStation* station)
 
 void UI::nextDay()
 {
+	//Do the waiting action according to Mode
 	if (station->getCurrentDay() == 1 && mode == Interactive)
 		return;
 	switch (mode)
@@ -31,6 +32,7 @@ void UI::nextDay()
 
 void UI::printOutput()
 {
+	//Print the output according the Mode
 	switch (mode)
 	{
 	case Interactive:
@@ -49,6 +51,7 @@ void UI::printOutput()
 
 void UI::printWaitingMissionsList()
 {
+	//Print the Missions waiting list of all types
 	PriorityQueue<Mission*>* EmergencyMissions = station->getEmergencyMissions();
 	LinkedList<Mission*>* MountaniousMissions = station->getMountaniousMissions();
 	queue<Mission*>* PolarMissions = station->getPolarMissions();
@@ -68,6 +71,7 @@ void UI::printWaitingMissionsList()
 
 void UI::printInExecutionList()
 {
+	//Print the Missions In - Execution list of all types
 	PriorityQueue<Mission*>* InExcutionMission = new PriorityQueue<Mission*> (*station->getInExecutionMissions());
 	int InExcutionNumber = station->getInExecutionMissions()->getSize();
 	queue<int> E, M, P;
@@ -132,6 +136,7 @@ void UI::printInExecutionList()
 
 void UI::printAvaliableRoverList()
 {
+	//Print the Avaliable Rover list of all types
 	PriorityQueue<Rover*>* EmergencyRovers = station->getEmergencyRovers();
 	PriorityQueue<Rover*>* MountaniousRovers = station->getMountaniousRovers();
 	PriorityQueue<Rover*>* PolarRovers = station->getPolarRovers();
@@ -151,6 +156,7 @@ void UI::printAvaliableRoverList()
 
 void UI::printInCheckupRoverList()
 {
+	//Print the In-Checkup Rover list of all types
 	queue<Rover*>* EmergencyCheckupRovers = station->getEmergencyCheckup();
 	queue<Rover*>* MountaniousCheckupRovers = station->getMountaniousCheckup();
 	queue<Rover*>* PolarCheckupRovers = station->getPolarCheckup();
@@ -170,6 +176,7 @@ void UI::printInCheckupRoverList()
 
 void UI::printCompletedList()
 {
+	//Print the Completed Missions list of all types
 	PriorityQueue<Mission*>* CompletedMission = new PriorityQueue<Mission*>(*station->getCompletedMissions());
 	int completedNumber = station->getCompletedMissions()->getSize();
 	queue<int> E, M, P;
@@ -226,6 +233,7 @@ void UI::printCompletedList()
 
 void UI::printInteractiveOutput()
 {
+	//Print Output if the mode is Interactive or Step-By-Step
 	system("CLS");
 	cout << "Current Day: " << station->getCurrentDay() << endl;
 	printWaitingMissionsList();
@@ -241,12 +249,14 @@ void UI::printInteractiveOutput()
 
 void UI::printSilentOutput()
 {
+	//Print Output if the mode is Silent Mode 
 	system("CLS");
 	cout << "Silent Mode\nSimulation Starts...\nSimulation ends, Output file created";
 }
 
 Mode UI::chooseMode()
 {
+	//Choose the mode from the user
 	cout << "Choose the mode\n1-Interactive\n2-Step-By-Step\n3-Silent" << endl;
 	int option; cin >> option;
 	cin.clear();
@@ -269,23 +279,16 @@ Mode UI::chooseMode()
 
 string UI::getIDsQueueMissions(queue<Mission*>* que)
 {
+	//Loop on the queue of Missions and return string of ids combined
 	if (que->isEmpty())
 	{
 		return "";
 	}
 	queue<Mission*>* tempQ = new queue<Mission*>(*que);
-	Mission* firstMission;
 	Mission* temp;
 	string ids = "";
-	tempQ->pop(firstMission);
-	ids += "," + to_string(firstMission->getID());
-	tempQ->push(firstMission);
 	while (tempQ->pop(temp))
 	{
-		if (temp == firstMission)
-		{
-			break;
-		}
 		ids += "," + to_string(temp->getID());
 	}
 	ids.erase(ids.begin());
@@ -294,6 +297,7 @@ string UI::getIDsQueueMissions(queue<Mission*>* que)
 
 string UI::getIDsPriorityQueueMissions(PriorityQueue<Mission*>* que)
 {
+	//Loop on the Priority queue and return string of ids combined
 	if (que->isEmpty())
 	{
 		return "";
@@ -311,23 +315,16 @@ string UI::getIDsPriorityQueueMissions(PriorityQueue<Mission*>* que)
 
 string UI::getIDsQueueRovers(queue<Rover*>* que)
 {
+	//Loop on the queue of Rovers and return string of ids combined
 	if (que->isEmpty())
 	{
 		return "";
 	}
 	queue<Rover*>* tempQ = new queue<Rover*>(*que);
-	Rover* firstMission;
 	Rover* temp;
 	string ids = "";
-	tempQ->pop(firstMission);
-	ids += "," + to_string(firstMission->GetID());
-	tempQ->push(firstMission);
 	while (tempQ->pop(temp))
 	{
-		if (temp == firstMission)
-		{
-			break;
-		}
 		ids += "," + to_string(temp->GetID());
 	}
 	ids.erase(ids.begin());
@@ -336,6 +333,7 @@ string UI::getIDsQueueRovers(queue<Rover*>* que)
 
 string UI::getIDsPriorityQueueRovers(PriorityQueue<Rover*>* que)
 {
+	//Loop on the Priority queue Rovers and return string of ids combined
 	if (que->isEmpty())
 	{
 		return "";
@@ -353,6 +351,7 @@ string UI::getIDsPriorityQueueRovers(PriorityQueue<Rover*>* que)
 
 string UI::getLinkedListIDs(LinkedList<Mission*>* list)
 {
+	//Loop on the LinkedList and return string of ids combined
 	Node<Mission*>* temp = list->getHead();
 	if (!temp)
 	{
@@ -370,6 +369,7 @@ string UI::getLinkedListIDs(LinkedList<Mission*>* list)
 
 void UI::getInput()
 {
+	//Open the inputs.txt file and read the data
 	cout << "Please enter the file you want to load: ";
 	cin >> UploadFile;
 	UploadFile = UploadFile + ".txt";
@@ -470,6 +470,7 @@ void UI::getInput()
 
 void UI::WriteInfile()
 {
+	//open txt file and Write data
 	fout.open(outputFile);
 	fout << "CD	" << "ID	" << "FD	" << "WD	" << "ED	";
 	fout << endl;
